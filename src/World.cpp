@@ -6,7 +6,7 @@ namespace orca
 {
 
 World::World(je::Game * const game)
-	:Level(game, "orcajam4/levels/world.tmx", 0, 0)
+	:Level(game, "orcajam4/levels/world.tmx")
 {
 	this->addEntity(new Player(this, sf::Vector2f(320 - 8, 240 - 8)));
 }

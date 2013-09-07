@@ -20,6 +20,7 @@ public:
 
 private:
 	sf::Sprite body;
+	sf::RectangleShape bbox;
 };
 
 }
