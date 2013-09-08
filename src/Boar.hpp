@@ -26,7 +26,11 @@ private:
     int health;
     int stareTime;
     StateType state;
-    sf::Vector2f chargeTarget;
+    float chargeDir;
+    float finalChargeDir;
+    int timer;
+    bool hasHitPlayerDuringCharge;
+    World * world;
 
 };
 }
