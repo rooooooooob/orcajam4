@@ -12,6 +12,7 @@ namespace orca
 Player::Player(World * world, const sf::Vector2f& pos)
 	:Entity(world, "Player", pos, sf::Vector2i(16, 16))
 	,controller(world->getGame().getInput())
+	,legs(world->getGame().getTexManager().get("player_legs.png"), 16, 16, 0)
 {
 	body.setTexture(world->getGame().getTexManager().get("player.png"));
 	body.setOrigin(8, 8);

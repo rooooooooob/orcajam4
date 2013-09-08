@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include "Controller.hpp"
+#include "Animation.hpp"
 
 namespace orca
 {
@@ -23,6 +24,7 @@ private:
 	sf::Sprite body;
 	sf::RectangleShape bbox;
 	je::Controller controller;
+	je::Animation legs;
 };
 
 }

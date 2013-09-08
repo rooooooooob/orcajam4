@@ -161,7 +161,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
                     }
                     else
                     {
-                        unsigned short int rand = je::random (20);
+                        unsigned short int rand = je::random(20);
 
                         if (rand == 0)
                         {
