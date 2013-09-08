@@ -31,7 +31,6 @@ void Boar::update()
         sprite.setPosition(px, py);
     });
 
-    std::cout << "state: " << state;
     sf::Vector2f playerPos = target->getPos();
     switch (state)
     {

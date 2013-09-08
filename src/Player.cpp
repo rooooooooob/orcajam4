@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "Tree.hpp"
 
 #include "TexManager.hpp"
 
@@ -6,6 +7,8 @@
 #include "Game.hpp"
 #include "Trig.hpp"
 #include "Level.hpp"
+
+#include <iostream>
 
 static const int DROWNING_ANIMATION_TIME = 60;
 
@@ -26,7 +29,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 10, false)
 	,drowning(world->getGame().getTexManager().get("player_drowning.png"), 16, 16, 8, false)
 	,speed(2)
-	,state(State::Rafting)
+	,state(State::Walking)
 	,timer(-1)
 	,hp(100)
 	,raftDirection(0)
@@ -174,7 +177,17 @@ void Player::update()
 				state = State::Walking;
 			}
 			else
+            {
 				attacking.advanceFrame();
+				std::vector<je::Entity*> hitList;
+				std::cout << "x coor: " << je::lengthdirX (8, mouseAim) << "  y coor: " << je::lengthdirY (8, mouseAim) << "\n";
+				world->findCollisions(hitList, this, "Tree", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
+				for (je::Entity* tree : hitList)
+                {
+                    std::cout << "chop";
+                    ((Tree*)tree)->chop();
+                }
+            }
 			break;
 		case State::Stunned:
 			stunned.setPosition(pos);

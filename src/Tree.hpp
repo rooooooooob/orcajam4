@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "Animation.hpp"
 
 namespace orca
 {
@@ -18,9 +19,11 @@ public:
 
 	void draw(sf::RenderTarget& target) const override;
 
+    void chop ();
+
 private:
 
-	sf::Sprite sprite;
+    je::Animation cutting;
 	int hp;
 };
 
