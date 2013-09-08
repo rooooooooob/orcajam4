@@ -4,6 +4,7 @@
 #include <cassert>
 #include "Random.hpp"
 #include "Player.hpp"
+#include "Boar.hpp"
 #include "Tree.hpp"
 #include "SolidTerrain.hpp"
 
