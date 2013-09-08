@@ -3,6 +3,8 @@
 #include "World.hpp"
 #include "Game.hpp"
 #include "Trig.hpp"
+#include "Blood.hpp"
+#include "Random.hpp"
 #include <iostream>
 
 namespace orca
@@ -12,7 +14,7 @@ Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     Entity (world, "Boar", pos, sf::Vector2i(16, 16)),
     run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
     target(player), health(10), stareTime (0), state (Roam), chargeDir(0),
-    timer(0), hasHitPlayerDuringCharge(false)
+    timer(0), hasHitPlayerDuringCharge(false), world(world)
 {
 	depth = -5;
     run.apply([](sf::Sprite& sprite){
@@ -117,6 +119,10 @@ void Boar::update()
 				hasHitPlayerDuringCharge = true;
 				target->damage(5);
 				chargeDir = finalChargeDir;
+				for (int r = 0; r < 4; ++r)
+					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
+				for (int r = 0; r < 2; ++r)
+					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
 			}
 			if (timer == 0)
 			{
@@ -127,7 +133,6 @@ void Boar::update()
     }
 	if (timer >= 0)
 		--timer;
-	prevPos = pos;
 }
 
 }

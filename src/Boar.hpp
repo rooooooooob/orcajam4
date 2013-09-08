@@ -30,7 +30,7 @@ private:
     float finalChargeDir;
     int timer;
     bool hasHitPlayerDuringCharge;
-    sf::Vector2f prevPos;
+    World * world;
 
 };
 }
