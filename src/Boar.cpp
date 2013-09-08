@@ -11,7 +11,7 @@ namespace orca
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     Entity (world, "Boar", pos, sf::Vector2i(16, 16)),
     run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
-    target(player), health(10)
+    target(player), health(10), stareTime (0), state (Roam), chargeTarget (0, 0)
 {
     run.apply([](sf::Sprite& sprite){
         sprite.setOrigin(8, 8);
@@ -31,51 +31,114 @@ void Boar::update()
         sprite.setPosition(px, py);
     });
 
-    sf::Vector2f playerPosition = target->getPos();
-    if (je::pointDistance (pos, playerPosition) < 160)//if distance (boar, player) <= angryzone
-        attack(playerPosition);//  attack()
-
-}
-
-void Boar::attack(const sf::Vector2f& playerPos)
-{
-    sf::Rect<float> boaR (pos.x - 8, pos.y - 8, 16, 16);
-    sf::Rect<float> playeR (playerPos.x - 8, playerPos.y - 8, 16, 16);
-    if (boaR.intersects(playeR))
+    std::cout << "state: " << state;
+    sf::Vector2f playerPos = target->getPos();
+    switch (state)
     {
-        target->damage (1);
+        case Roam:
+        {
+            if (je::pointDistance (pos, target->getPos()) <= 320)
+                state = Follow;
+            break;
+        }
+
+        case Follow:
+        {
+            float direction = je::pointDirection(pos, playerPos);
+
+            run.apply ([direction] (sf::Sprite& sprite)
+            {
+               sprite.setRotation (-direction);
+            });
+
+            if (pos.x > playerPos.x)
+            {
+                pos.x -= 1;
+                run.advanceFrame();
+            }
+            else if (pos.x < playerPos.x)
+            {
+                pos.x += 1;
+                run.advanceFrame();
+            }
+
+            if (pos.y > playerPos.y)
+            {
+                pos.y -= 1;
+                run.advanceFrame();
+            }
+            else if (pos.y < playerPos.y)
+            {
+                pos.y += 1;
+                run.advanceFrame();
+            }
+
+            if (je::pointDistance (pos, playerPos) <= 160)
+            {
+                state = Stare;
+                stareTime = 0;
+            }
+            break;
+        }
+
+        case Stare:
+        {
+            if (stareTime < 100)
+            {
+                float direction = je::pointDirection(pos, playerPos);
+
+                run.apply ([direction] (sf::Sprite& sprite)
+                {
+                   sprite.setRotation (-direction);
+                });
+
+                ++stareTime;
+            }
+            else
+            {
+                state = Charge;
+                chargeTarget = playerPos;
+            }
+            break;
+        }
+
+        case Charge:
+        {
+            sf::Rect<float> boaR (pos, sf::Vector2f (16, 16));
+            if (!boaR.contains(playerPos))
+            {
+                if (pos.x > playerPos.x)
+                {
+                    pos.x -= 3;
+                    run.advanceFrame();
+                    run.advanceFrame();
+                }
+                else if (pos.x < playerPos.x)
+                {
+                    pos.x += 3;
+                    run.advanceFrame();
+                    run.advanceFrame();
+                }
+
+                if (pos.y > playerPos.y)
+                {
+                    pos.y -= 3;
+                    run.advanceFrame();
+                    run.advanceFrame();
+                }
+                else if (pos.y < playerPos.y)
+                {
+                    pos.y += 3;
+                    run.advanceFrame();
+                    run.advanceFrame();
+                }
+            }
+            else
+                state = Roam;
+            break;
+        }
     }
-    else
-    {
 
-        float direction = je::pointDirection(pos, playerPos);
 
-        run.apply ([direction] (sf::Sprite& sprite)
-        {
-           sprite.setRotation (-direction);
-        });
-
-        if (pos.x > playerPos.x)
-        {
-            pos.x -= 1;
-            run.advanceFrame();
-        }
-        else if (pos.x < playerPos.x)
-        {
-            pos.x += 1;
-            run.advanceFrame();
-        }
-
-        if (pos.y > playerPos.y)
-        {
-            pos.y -= 1;
-            run.advanceFrame();
-        }
-        else if (pos.y < playerPos.y)
-        {
-            pos.y += 1;
-            run.advanceFrame();
-        }
-    }
 }
 }
