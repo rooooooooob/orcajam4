@@ -1,6 +1,7 @@
 #include "World.hpp"
 
 #include "Player.hpp"
+#include <iostream>
 
 namespace orca
 {
@@ -8,7 +9,9 @@ namespace orca
 World::World(je::Game * const game)
 	:Level(game, "orcajam4/levels/tiny.tmx")
 {
+	this->loadMap("orcajam4/levels/tiny.tmx");
 	this->addEntity(new Player(this, sf::Vector2f(320, 240)));//186 * 16 - 8, 151 * 16 - 8)));
+
 }
 
 void World::onDraw(sf::RenderTarget& target) const
@@ -19,8 +22,9 @@ void World::loadEntities(const std::string& layerName, const std::vector<EntityP
 {
 }
 
-void World::transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned  **tiles)
+void World::transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned **tiles)
 {
+	std::cout << "World::transformTiles()\n";
 	//	make a copy of the tiles to refer to while transforming
 	unsigned int **untransformed = new unsigned int*[tilesAcross];
 	for (int i = 0; i < tilesAcross; ++i)

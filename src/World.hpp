@@ -11,8 +11,8 @@ class World : public je::Level
 public:
 	World(je::Game * const game);
 private:
-	void onDraw(sf::RenderTarget& target) const;
-	void loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes);
+	void onDraw(sf::RenderTarget& target) const override;
+	void loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes) override;
 	void transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned  **tiles) override;
 };
 

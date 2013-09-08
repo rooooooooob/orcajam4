@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "Controller.hpp"
 
 namespace orca
 {
@@ -21,6 +22,7 @@ public:
 private:
 	sf::Sprite body;
 	sf::RectangleShape bbox;
+	je::Controller controller;
 };
 
 }
