@@ -43,6 +43,7 @@ void Boar::attack(const sf::Vector2f& playerPos)
     sf::Rect<float> playeR (playerPos.x - 8, playerPos.y - 8, 16, 16);
     if (boaR.intersects(playeR))
     {
+        //player->damage (1);
     }
     else
     {
