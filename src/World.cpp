@@ -15,7 +15,18 @@ World::World(je::Game * const game)
 	:Level(game, "orcajam4/levels/world.tmx")
 	,terrain(nullptr)
 	,resetOnNextTurn(false)
+	,player(nullptr)
 {
+	hpbar.setPosition(32, 16);
+	hpbar.setSize(sf::Vector2f(100, 32));
+	hpbar.setFillColor(sf::Color::Red);
+
+	hpbarBack.setPosition(32, 16);
+	hpbarBack.setSize(sf::Vector2f(100, 32));
+	hpbarBack.setFillColor(sf::Color::Black);
+	hpbarBack.setOutlineColor(sf::Color::White);
+	hpbarBack.setOutlineThickness(2);
+
 	this->setCameraBounds(sf::Rect<int>(0, 0, 640, 480));
 	this->loadMap("orcajam4/levels/world.tmx");
 
@@ -47,10 +58,23 @@ void World::onUpdate()
 {
 	if (resetOnNextTurn)
 		this->actuallyReset();
+	if (player)
+	{
+		hpbar.setSize(sf::Vector2f(player->getHp(), hpbar.getSize().y));
+	}
 }
 
 void World::onDraw(sf::RenderTarget& target) const
 {
+}
+
+void World::drawGUI(sf::RenderTarget& target) const
+{
+	if (player)
+	{
+		target.draw(hpbarBack);
+		target.draw(hpbar);
+	}
 }
 
 void World::loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes)
@@ -327,12 +351,12 @@ void World::actuallyReset()
 	this->clearEntities();
 	for (const je::Level::EntityPrototype& obj : prototypes)
 	{
-		std::cout << "----------------ENTITY-------------";
+		/*std::cout << "----------------ENTITY-------------";
 		std::cout << "id: " << obj.id
 				  << "\npos: (" << obj.x << "," << obj.y << ")"
 				  << "\nname: " << obj.name
 				  << "\ntype: " << obj.type << "\n\n";
-		std::cout << "-----------------------------------";
+		std::cout << "-----------------------------------";*/
 		const sf::Vector2f pos(obj.x, obj.y);
 		if (obj.id == 65)
 		{
@@ -346,7 +370,9 @@ void World::actuallyReset()
 		}
 	}
 
-	this->addEntity(new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8)));
+	player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
+	this->addEntity(player);
+	this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
 
 	resetOnNextTurn = false;
 }

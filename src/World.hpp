@@ -6,6 +6,8 @@
 namespace orca
 {
 
+class Player;
+
 class World : public je::Level
 {
 public:
@@ -30,6 +32,7 @@ public:
 private:
 	void onUpdate() override;
 	void onDraw(sf::RenderTarget& target) const override;
+	void drawGUI(sf::RenderTarget& target) const override;
 	void loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes) override;
 	void transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned  **tiles) override;
 
@@ -42,6 +45,11 @@ private:
 	Terrain **terrain;
 	std::vector<EntityPrototype> prototypes;
 	bool resetOnNextTurn;
+
+	Player *player;
+
+	sf::RectangleShape hpbar;
+	sf::RectangleShape hpbarBack;
 };
 
 }
