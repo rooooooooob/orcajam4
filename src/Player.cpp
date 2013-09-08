@@ -52,10 +52,9 @@ void Player::update()
 	}
 
 	body.setPosition(pos);
-	body.setRotation(-je::pointDirection(pos, controller.getMousePos()));
+	bbox.setPosition(level->getCursorPos());
+	body.setRotation(-je::pointDirection(pos, level->getCursorPos()));
 
-
-	bbox.setPosition(pos);
 
 	level->setCameraPosition(pos);
 }

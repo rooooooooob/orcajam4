@@ -11,7 +11,7 @@ World::World(je::Game * const game)
 {
 	this->loadMap("orcajam4/levels/tiny.tmx");
 	this->addEntity(new Player(this, sf::Vector2f(320, 240)));//186 * 16 - 8, 151 * 16 - 8)));
-
+	this->setCameraBounds(sf::Rect<int>(0, 0, 640, 480));
 }
 
 void World::onDraw(sf::RenderTarget& target) const
