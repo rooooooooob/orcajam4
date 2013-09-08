@@ -40,7 +40,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 
 		for (int x = 0; x < tilesAcross; ++x)
 		{
-			for (int y = 0; y < tilesAcross; ++y)
+			for (int y = 0; y < tilesHigh; ++y)
 			{
                 if (untransformed[x][y] == Sand)
                 {
