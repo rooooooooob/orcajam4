@@ -9,7 +9,7 @@ namespace orca
 
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     Entity (world, "Boar", pos, sf::Vector2i(16, 16)),
-    run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10000000),
+    run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
     target(player), health(10)
 {
 }
@@ -20,7 +20,7 @@ void Boar::draw(sf::RenderTarget& target) const
 }
 
 void Boar::update()
-{
+{/*
     int px = pos.x;
     int py = pos.y;
     run.apply([px, py](sf::Sprite& sprite){
@@ -31,18 +31,12 @@ void Boar::update()
     if (je::pointDistance (pos, playerPosition) < 160)//if distance (boar, player) <= angryzone
         attack(playerPosition);//  attack()
 
-
+*/
 }
 
 void Boar::attack(const sf::Vector2f& playerPos)
 {
-    /*float startDirection;
-
-    run.apply ([&startDirection] (sf::Sprite& sprite)
-    {
-        startDirection = sprite.getRotation();
-    });*/
-
+/*
     float endDirection = je::pointDirection(pos, playerPos);
 
     run.apply ([endDirection] (sf::Sprite& sprite)
@@ -50,36 +44,26 @@ void Boar::attack(const sf::Vector2f& playerPos)
        sprite.setRotation (-endDirection);
     });
 
-    /*if (startDirection < endDirection)
+    if (pos.x > playerPos.x)
     {
-        startDirection += 1;
+        pos.x -= 1;
+        run.advanceFrame();
     }
-    else
-    {*/
-        if (pos.x > playerPos.x)
-        {
-            pos.x -= 1;
-            run.advanceFrame();
-        }
-        else if (pos.x < playerPos.x)
-        {
-            pos.x += 1;
-            run.advanceFrame();
-        }
+    else if (pos.x < playerPos.x)
+    {
+        pos.x += 1;
+        run.advanceFrame();
+    }
 
-        if (pos.y > playerPos.y)
-        {
-            pos.y -= 1;
-            run.advanceFrame();
-        }
-        else if (pos.y < playerPos.y)
-        {
-            pos.y += 1;
-            run.advanceFrame();
-        }
-    //move towards player
-    //check collision
-    //if collision
-    //  deal damage
+    if (pos.y > playerPos.y)
+    {
+        pos.y -= 1;
+        run.advanceFrame();
     }
+    else if (pos.y < playerPos.y)
+    {
+        pos.y += 1;
+        run.advanceFrame();
+    }*/
+}
 }
