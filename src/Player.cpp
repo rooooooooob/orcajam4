@@ -18,11 +18,12 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,controller(world->getGame().getInput())
 	,legs(world->getGame().getTexManager().get("player_legs.png"), 16, 16, 5)
 	,walking(world->getGame().getTexManager().get("player_walking.png"), 16, 16, 6)
-	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 0, false)
+	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 5, false)
 	,drowning(world->getGame().getTexManager().get("player_drowning.png"), 16, 16, 8, false)
 	,speed(2)
 	,state(State::Walking)
 	,timer(-1)
+	,hp(100)
 {
 	legs.apply([](sf::Sprite& sprite){
 		sprite.setOrigin(8, 8);

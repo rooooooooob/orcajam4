@@ -40,6 +40,7 @@ private:
 	float speed;
 	State state;
 	int timer;
+	int hp;
 };
 
 }
