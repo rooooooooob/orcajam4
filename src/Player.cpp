@@ -13,7 +13,7 @@ namespace orca
 {
 
 Player::Player(World * world, const sf::Vector2f& pos)
-	:Entity(world, "Player", pos, sf::Vector2i(16, 16))
+	:Entity(world, "Player", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8))
 	,world(world)
 	,controller(world->getGame().getInput())
 	,legs(world->getGame().getTexManager().get("player_legs.png"), 16, 16, 5)
@@ -43,6 +43,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	controller.setKeybinds("left", {je::Controller::Bind(sf::Keyboard::Left), je::Controller::Bind(sf::Keyboard::A)});
 	controller.setKeybinds("down", {je::Controller::Bind(sf::Keyboard::Down), je::Controller::Bind(sf::Keyboard::S)});
 	controller.setKeybinds("right", {je::Controller::Bind(sf::Keyboard::Right), je::Controller::Bind(sf::Keyboard::D)});
+	controller.setKeybinds("attack", {je::Controller::Bind(sf::Mouse::Button::Left)});
 	depth = -10;
 }
 
@@ -142,7 +143,21 @@ void Player::update()
 						sprite.setPosition(px, py);
 					});
 				}
+				if (controller.isActionPressed("attack"))
+				{
+					//attacking.reset();
+					state = State::Attacking;
+					break;
+				}
 			}
+			break;
+		case State::Attacking:
+			if (attacking.isFinished())
+			{
+
+			}
+			else
+				attacking.advanceFrame();
 			break;
 		case State::Stunned:
 			stunned.setPosition(pos);
@@ -161,6 +176,11 @@ void Player::update()
 	if (timer >= 0)
 		--timer;
 	level->setCameraPosition(pos);
+}
+
+void Player::damage(int amount)
+{
+	hp -= amount;
 }
 
 }

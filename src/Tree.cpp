@@ -8,7 +8,7 @@ namespace orca
 {
 
 Tree::Tree(World * world, const sf::Vector2f& pos)
-	:Entity(world, "Tree", pos, sf::Vector2i(16, 16), sf::Vector2i(8, 8))
+	:Entity(world, "Tree", pos, sf::Vector2i(8, 8), sf::Vector2i(-4, -4))
 	,hp(10)
 {
 	this->pos.y -= 16;
@@ -17,6 +17,7 @@ Tree::Tree(World * world, const sf::Vector2f& pos)
 	sprite.setPosition(this->pos);
 	sprite.setOrigin(16, 16);
 	sprite.setRotation(je::random(360));
+	depth = -20;
 }
 
 void Tree::update()

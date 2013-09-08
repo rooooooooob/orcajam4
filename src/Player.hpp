@@ -20,6 +20,8 @@ public:
 
 	void update() override;
 
+	void damage(int amount);
+
 private:
 	enum class State
 	{
