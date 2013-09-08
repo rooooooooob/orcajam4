@@ -7,6 +7,7 @@
 #include "Boar.hpp"
 #include "Tree.hpp"
 #include "SolidTerrain.hpp"
+#include "Bush.hpp"
 
 namespace orca
 {
@@ -368,6 +369,21 @@ void World::actuallyReset()
 			je::Entity *entity = new SolidTerrain(this, pos, "rock.png");
 			this->addEntity(entity);
 		}
+		else if (obj.id == 131)
+		{
+			je::Entity *entity = new Bush(this, pos);
+			this->addEntity(entity);
+		}
+	}
+
+	if (tileLayers.count("terrain"))
+	{
+		tileLayers["terrain"]->setDepth(10);
+	}
+
+	if (tileLayers.count("water"))
+	{
+		tileLayers["water"]->setDepth(20);
 	}
 
 	player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));

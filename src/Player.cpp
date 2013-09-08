@@ -9,6 +9,11 @@
 
 static const int DROWNING_ANIMATION_TIME = 60;
 
+
+static const float RAFT_ACCEL = 0.005;
+static const float RAFT_DEACCEL = 0.001;
+static const float RAFT_TURNING_SPEED = 0.5;
+
 namespace orca
 {
 
@@ -21,9 +26,11 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 10, false)
 	,drowning(world->getGame().getTexManager().get("player_drowning.png"), 16, 16, 8, false)
 	,speed(2)
-	,state(State::Walking)
+	,state(State::Rafting)
 	,timer(-1)
 	,hp(100)
+	,raftDirection(0)
+	,raftVelocity(0)
 {
 	legs.apply([](sf::Sprite& sprite){
 		sprite.setOrigin(8, 8);
@@ -37,8 +44,13 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	drowning.apply([](sf::Sprite& sprite){
 		sprite.setOrigin(8, 8);
 	});
+
 	stunned.setTexture(world->getGame().getTexManager().get("player.png"));
 	stunned.setOrigin(4, 8);
+
+	raft.setTexture(world->getGame().getTexManager().get("raft.png"));
+	raft.setOrigin(16, 16);
+
 	controller.setKeybinds("up", {je::Controller::Bind(sf::Keyboard::Up), je::Controller::Bind(sf::Keyboard::W)});
 	controller.setKeybinds("left", {je::Controller::Bind(sf::Keyboard::Left), je::Controller::Bind(sf::Keyboard::A)});
 	controller.setKeybinds("down", {je::Controller::Bind(sf::Keyboard::Down), je::Controller::Bind(sf::Keyboard::S)});
@@ -64,6 +76,7 @@ void Player::draw(sf::RenderTarget& target) const
 			target.draw(stunned);
 			break;
 		case State::Rafting:
+			target.draw(raft);
 			break;
 		case State::Drowning:
 			drowning.draw(target);
@@ -167,12 +180,48 @@ void Player::update()
 			stunned.setPosition(pos);
 			stunned.setRotation(mouseAim);
 			break;
+		case State::Rafting:
+			if (controller.isActionHeld("right"))
+			{
+				raftDirection -= RAFT_TURNING_SPEED;
+			}
+			if (controller.isActionHeld("left"))
+			{
+				raftDirection += RAFT_TURNING_SPEED;
+			}
+			if (controller.isActionHeld("up"))
+			{
+				raftVelocity += RAFT_ACCEL;
+			}
+			if (controller.isActionHeld("down"))
+			{
+				raftVelocity -= RAFT_ACCEL;
+			}
+
+			if (raftVelocity > RAFT_DEACCEL)
+				raftVelocity -= RAFT_DEACCEL;
+			else if (raftVelocity < -RAFT_DEACCEL)
+				raftVelocity += RAFT_DEACCEL;
+			else
+				raftVelocity = 0;
+
+			if (raftVelocity > 1)
+				raftVelocity = 1;
+			else if (raftVelocity < -1)
+				raftVelocity = -1;
+
+			raft.setPosition(pos);
+			raft.setRotation(-raftDirection);
+			pos += je::lengthdir(raftVelocity, raftDirection);
+			break;
 		case State::Drowning:
 			drowning.advanceFrame();
-			if (timer == 0)
+			if (drowning.isFinished())
+				hp -= 2;
+			/*if (timer == 0)
 			{
 				world->reset();
-			}
+			}*/
 			break;
 		default:
 			break;
@@ -180,6 +229,8 @@ void Player::update()
 	if (timer >= 0)
 		--timer;
 	level->setCameraPosition(pos);
+	if (hp <= 0)
+		world->reset();
 }
 
 void Player::damage(int amount)

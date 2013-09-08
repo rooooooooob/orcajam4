@@ -36,6 +36,7 @@ private:
 
 	World * world;
 	sf::Sprite stunned;
+	sf::Sprite raft;
 	je::Controller controller;
 	je::Animation legs;
 	je::Animation walking;
@@ -45,6 +46,8 @@ private:
 	State state;
 	int timer;
 	int hp;
+	float raftDirection;
+	float raftVelocity;
 };
 
 }
