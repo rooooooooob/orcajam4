@@ -1,6 +1,7 @@
 #include "World.hpp"
 #include "Random.hpp"
 #include "Player.hpp"
+#include "Boar.hpp"
 #include <iostream>
 #include "Tree.hpp"
 #include "SolidTerrain.hpp"
@@ -13,7 +14,9 @@ World::World(je::Game * const game)
 {
 	this->setCameraBounds(sf::Rect<int>(0, 0, 640, 480));
 	this->loadMap("orcajam4/levels/world.tmx");
-	this->addEntity(new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8)));
+	Player* player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
+	this->addEntity(player);
+	this->addEntity(new Boar(this, sf::Vector2f(100*16 - 8, 200*16 - 8), player));
 }
 
 void World::onDraw(sf::RenderTarget& target) const

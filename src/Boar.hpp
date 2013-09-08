@@ -13,16 +13,16 @@ class Player;
 class Boar: public je::Entity
 {
 public:
-    Boar (World * world, const sf::Vector2f& pos);
+    Boar (World * world, const sf::Vector2f& pos, Player *player);
     void draw(sf::RenderTarget& target) const override;
 	void update() override;
-	void attack(Player& target);
+	void attack();
 
 private:
     je::Animation run;
     //je::Animation attack;
+    Player* target;
     int health;
-    void find();
 
 };
 }
