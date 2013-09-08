@@ -2,6 +2,8 @@
 #include "Random.hpp"
 #include "Player.hpp"
 #include <iostream>
+#include "Tree.hpp"
+#include "SolidTerrain.hpp"
 
 namespace orca
 {
@@ -20,6 +22,26 @@ void World::onDraw(sf::RenderTarget& target) const
 
 void World::loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes)
 {
+	for (const je::Level::EntityPrototype& obj : prototypes)
+	{
+		std::cout << "----------------ENTITY-------------";
+		std::cout << "id: " << obj.id
+				  << "\npos: (" << obj.x << "," << obj.y << ")"
+				  << "\nname: " << obj.name
+				  << "\ntype: " << obj.type << "\n\n";
+		std::cout << "-----------------------------------";
+		const sf::Vector2f pos(obj.x, obj.y);
+		if (obj.id == 65)
+		{
+			je::Entity *entity = new Tree(this, pos);
+			this->addEntity(entity);
+		}
+		else if (obj.id == 130)
+		{
+			je::Entity *entity = new SolidTerrain(this, pos, "rock.png");
+			this->addEntity(entity);
+		}
+	}
 }
 
 void World::transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned **tiles)

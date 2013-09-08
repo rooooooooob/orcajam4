@@ -21,10 +21,23 @@ public:
 	void update() override;
 
 private:
-	sf::Sprite body;
+	enum class State
+	{
+		Walking,
+		Attacking,
+		Stunned,
+		Wading,
+		Drowning
+	};
+
+	sf::Sprite stunned;
 	sf::RectangleShape bbox;
 	je::Controller controller;
 	je::Animation legs;
+	je::Animation walking;
+	je::Animation attacking;
+	float speed;
+	State state;
 };
 
 }
