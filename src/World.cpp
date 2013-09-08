@@ -184,7 +184,87 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 			}
 		}
 	}
+	else if (layerName == "water")
+	{
+	    enum WaterType { Shallow = 70, Normal = 78, Deep = 71 };
 
+		for (int x = 1; x < tilesAcross - 1; ++x)
+		{
+			for (int y = 1; y < tilesHigh - 1; ++y)
+			{
+                if (untransformed[x][y] == Shallow)
+                {
+                    if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
+                    {
+                        tiles[x][y] = 82;
+                    }
+                    else if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
+                    {
+                        tiles[x][y] = 90;
+                    }
+                    else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
+                    {
+                        tiles[x][y] = 84;
+                    }
+                    else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
+                    {
+                        tiles[x][y] = 92;
+                    }
+                    else if (untransformed[x + 1][y] == Normal)
+                    {
+                        tiles[x][y] = 93;
+                    }
+                    else if (untransformed[x - 1][y] == Normal)
+                    {
+                        tiles[x][y] = 85;
+                    }
+                    else if (untransformed[x][y + 1] == Normal)
+                    {
+                        tiles[x][y] = 91;
+                    }
+                    else if (untransformed[x][y - 1] == Normal)
+                    {
+                        tiles[x][y] = 83;
+                    }
+                }
+                else if (untransformed[x][y] == Normal)
+                {
+                    if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
+                    {
+                        tiles[x][y] = 114;
+                    }
+                    else if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
+                    {
+                        tiles[x][y] = 122;
+                    }
+                    else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
+                    {
+                        tiles[x][y] = 116;
+                    }
+                    else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
+                    {
+                        tiles[x][y] = 124;
+                    }
+                    else if (untransformed[x + 1][y] == Deep)
+                    {
+                        tiles[x][y] = 125;
+                    }
+                    else if (untransformed[x - 1][y] == Deep)
+                    {
+                        tiles[x][y] = 117;
+                    }
+                    else if (untransformed[x][y + 1] == Deep)
+                    {
+                        tiles[x][y] = 123;
+                    }
+                    else if (untransformed[x][y - 1] == Deep)
+                    {
+                        tiles[x][y] = 115;
+                    }
+                }
+            }
+        }
+	}
 	for (int i = 0; i < tilesAcross; ++i)
 		delete[] untransformed[i];
 	delete[] untransformed;
