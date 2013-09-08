@@ -1,8 +1,10 @@
 #include "World.hpp"
+
+#include <iostream>
+#include <cassert>
 #include "Random.hpp"
 #include "Player.hpp"
 #include "Boar.hpp"
-#include <iostream>
 #include "Tree.hpp"
 #include "SolidTerrain.hpp"
 
@@ -11,12 +13,40 @@ namespace orca
 
 World::World(je::Game * const game)
 	:Level(game, "orcajam4/levels/world.tmx")
+	,terrain(nullptr)
+	,resetOnNextTurn(false)
 {
 	this->setCameraBounds(sf::Rect<int>(0, 0, 640, 480));
 	this->loadMap("orcajam4/levels/world.tmx");
-	Player* player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
-	this->addEntity(player);
-	this->addEntity(new Boar(this, sf::Vector2f(100*16 - 8, 200*16 - 8), player));
+
+	this->reset();
+}
+
+World::~World()
+{
+	if (terrain != nullptr)
+	{
+		for (int i = 0; i < getWidth() / 16; ++i)
+			delete[] terrain[i];
+		delete[] terrain;
+	}
+}
+
+void World::reset()
+{
+	resetOnNextTurn = true;
+}
+
+World::Terrain World::getTerrain(int x, int y) const
+{
+	assert(x >= 0 && x < getWidth() && y >= 0 && y < getHeight());
+	return terrain[x / 16][y / 16];
+}
+
+void World::onUpdate()
+{
+	if (resetOnNextTurn)
+		this->actuallyReset();
 }
 
 void World::onDraw(sf::RenderTarget& target) const
@@ -25,30 +55,21 @@ void World::onDraw(sf::RenderTarget& target) const
 
 void World::loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes)
 {
-	for (const je::Level::EntityPrototype& obj : prototypes)
-	{
-		std::cout << "----------------ENTITY-------------";
-		std::cout << "id: " << obj.id
-				  << "\npos: (" << obj.x << "," << obj.y << ")"
-				  << "\nname: " << obj.name
-				  << "\ntype: " << obj.type << "\n\n";
-		std::cout << "-----------------------------------";
-		const sf::Vector2f pos(obj.x, obj.y);
-		if (obj.id == 65)
-		{
-			je::Entity *entity = new Tree(this, pos);
-			this->addEntity(entity);
-		}
-		else if (obj.id == 130)
-		{
-			je::Entity *entity = new SolidTerrain(this, pos, "rock.png");
-			this->addEntity(entity);
-		}
-	}
+	this->prototypes = prototypes;
 }
 
 void World::transformTiles(const std::string& layerName, int tilesAcross, int tilesHigh, unsigned **tiles)
 {
+	if (terrain == nullptr)
+	{
+		terrain = new Terrain*[getWidth() / 16];
+		for (int i = 0; i < getWidth() / 16; ++i)
+		{
+			terrain[i] = new Terrain[getHeight() / 16];
+			for (int j = 0; j < getHeight() / 16; ++j)
+				terrain[i][j] = Terrain::DeepWater;
+		}
+	}
 	std::cout << "World::transformTiles()\n";
 	//	make a copy of the tiles to refer to while transforming
 	unsigned int **untransformed = new unsigned int*[tilesAcross];
@@ -69,6 +90,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 			{
                 if (untransformed[x][y] == Sand)
                 {
+                	terrain[x][y] = Terrain::Sand;
                     if ((untransformed[x - 1][y] == Water) && (untransformed[x + 1][y] == Water) && (untransformed[x][y + 1] == Water))
                     {
                         tiles[x][y] = 16;
@@ -120,6 +142,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
                 }
                 else if (untransformed[x][y] == Grass)
                 {
+                	terrain[x][y] = Terrain::Grass;
                     if ((untransformed[x - 1][y] == Sand) && (untransformed[x + 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
                     {
                         tiles[x][y] = 32;
@@ -219,6 +242,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 			{
                 if (untransformed[x][y] == Shallow)
                 {
+                	terrain[x][y] = Terrain::ShallowWater;
                     if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
                     {
                         tiles[x][y] = 82;
@@ -254,6 +278,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
                 }
                 else if (untransformed[x][y] == Normal)
                 {
+                	terrain[x][y] = Terrain::NormalWater;
                     if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
                     {
                         tiles[x][y] = 114;
@@ -287,12 +312,43 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
                         tiles[x][y] = 115;
                     }
                 }
+				else
+					terrain[x][y] == Terrain::DeepWater;
             }
         }
 	}
 	for (int i = 0; i < tilesAcross; ++i)
 		delete[] untransformed[i];
 	delete[] untransformed;
+}
+
+void World::actuallyReset()
+{
+	this->clearEntities();
+	for (const je::Level::EntityPrototype& obj : prototypes)
+	{
+		std::cout << "----------------ENTITY-------------";
+		std::cout << "id: " << obj.id
+				  << "\npos: (" << obj.x << "," << obj.y << ")"
+				  << "\nname: " << obj.name
+				  << "\ntype: " << obj.type << "\n\n";
+		std::cout << "-----------------------------------";
+		const sf::Vector2f pos(obj.x, obj.y);
+		if (obj.id == 65)
+		{
+			je::Entity *entity = new Tree(this, pos);
+			this->addEntity(entity);
+		}
+		else if (obj.id == 130)
+		{
+			je::Entity *entity = new SolidTerrain(this, pos, "rock.png");
+			this->addEntity(entity);
+		}
+	}
+
+	this->addEntity(new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8)));
+
+	resetOnNextTurn = false;
 }
 
 }
