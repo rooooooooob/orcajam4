@@ -16,7 +16,7 @@ public:
     Boar (World * world, const sf::Vector2f& pos, Player *player);
     void draw(sf::RenderTarget& target) const override;
 	void update() override;
-	void attack();
+	void attack(const sf::Vector2f& playerPos);
 
 private:
     je::Animation run;
