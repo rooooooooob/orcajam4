@@ -18,7 +18,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,controller(world->getGame().getInput())
 	,legs(world->getGame().getTexManager().get("player_legs.png"), 16, 16, 5)
 	,walking(world->getGame().getTexManager().get("player_walking.png"), 16, 16, 6)
-	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 5, false)
+	,attacking(world->getGame().getTexManager().get("player_attacking.png"), 16, 16, 10, false)
 	,drowning(world->getGame().getTexManager().get("player_drowning.png"), 16, 16, 8, false)
 	,speed(2)
 	,state(State::Walking)
@@ -145,7 +145,11 @@ void Player::update()
 				}
 				if (controller.isActionPressed("attack"))
 				{
-					//attacking.reset();
+					attacking.reset();
+					attacking.apply([mouseAim, px, py](sf::Sprite& sprite){
+						sprite.setPosition(px, py);
+						sprite.setRotation(mouseAim);
+					});
 					state = State::Attacking;
 					break;
 				}
@@ -154,7 +158,7 @@ void Player::update()
 		case State::Attacking:
 			if (attacking.isFinished())
 			{
-
+				state = State::Walking;
 			}
 			else
 				attacking.advanceFrame();
@@ -181,6 +185,11 @@ void Player::update()
 void Player::damage(int amount)
 {
 	hp -= amount;
+}
+
+int Player::getHp() const
+{
+	return hp;
 }
 
 }

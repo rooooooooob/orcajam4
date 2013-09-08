@@ -22,6 +22,8 @@ public:
 
 	void damage(int amount);
 
+	int getHp() const;
+
 private:
 	enum class State
 	{
