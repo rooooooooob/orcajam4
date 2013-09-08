@@ -26,18 +26,20 @@ private:
 		Walking,
 		Attacking,
 		Stunned,
-		Wading,
+		Rafting,
 		Drowning
 	};
 
+	World * world;
 	sf::Sprite stunned;
-	sf::RectangleShape bbox;
 	je::Controller controller;
 	je::Animation legs;
 	je::Animation walking;
 	je::Animation attacking;
+	je::Animation drowning;
 	float speed;
 	State state;
+	int timer;
 };
 
 }
