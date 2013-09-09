@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "Tree.hpp"
+#include "Boar.hpp"
 
 #include "TexManager.hpp"
 
@@ -186,6 +187,13 @@ void Player::update()
                 {
                     std::cout << "chop";
                     ((Tree*)tree)->chop();
+                }
+
+                world->findCollisions(hitList, this, "Boar", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
+				for (je::Entity* tree : hitList)
+                {
+                    std::cout << "chop";
+                    ((Boar*)tree)->chop();
                 }
             }
 			break;

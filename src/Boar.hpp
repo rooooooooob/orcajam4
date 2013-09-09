@@ -17,6 +17,7 @@ public:
     Boar (World * world, const sf::Vector2f& pos, Player *player);
     void draw(sf::RenderTarget& target) const override;
 	void update() override;
+	void chop();
 
 private:
     enum StateType {Roam = 1, Follow = 2, Stare = 3, Charge = 4};

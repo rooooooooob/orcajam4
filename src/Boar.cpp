@@ -13,7 +13,7 @@ namespace orca
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     Entity (world, "Boar", pos, sf::Vector2i(16, 16)),
     run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
-    target(player), health(10), stareTime (0), state (Roam), chargeDir(0),
+    target(player), health(50), stareTime (0), state (Roam), chargeDir(0),
     timer(0), hasHitPlayerDuringCharge(false), world(world)
 {
 	depth = -5;
@@ -29,6 +29,10 @@ void Boar::draw(sf::RenderTarget& target) const
 
 void Boar::update()
 {
+    if (health <= 0)
+    {
+        this->destroy();
+    }
     int px = pos.x;
     int py = pos.y;
     run.apply([px, py](sf::Sprite& sprite){
@@ -121,7 +125,7 @@ void Boar::update()
 			if (dist < 16)
 			{
 				hasHitPlayerDuringCharge = true;
-				target->damage(5);
+				target->damage(3);
 				chargeDir = finalChargeDir;
 				for (int r = 0; r < 4; ++r)
 					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
@@ -137,6 +141,11 @@ void Boar::update()
     }
 	if (timer >= 0)
 		--timer;
+}
+
+void Boar::chop ()
+{
+    health -= 1;
 }
 
 }
