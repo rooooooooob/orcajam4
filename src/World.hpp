@@ -50,6 +50,8 @@ private:
 
 	sf::RectangleShape hpbar;
 	sf::RectangleShape hpbarBack;
+
+	int score;
 };
 
 }

@@ -1,6 +1,7 @@
 #include "World.hpp"
 
 #include <iostream>
+#include <sstream>
 #include <cassert>
 #include "Random.hpp"
 #include "Player.hpp"
@@ -9,6 +10,7 @@
 #include "SolidTerrain.hpp"
 #include "Bush.hpp"
 #include "Raft.hpp"
+#include "Game.hpp"
 
 const int HP_BAR_WIDTH = 192;
 const int HP_BAR_HEIGHT = 24;
@@ -21,6 +23,7 @@ World::World(je::Game * const game)
 	,terrain(nullptr)
 	,resetOnNextTurn(false)
 	,player(nullptr)
+	,score(0)
 {
 	hpbar.setPosition(32, 16);
 	hpbar.setSize(sf::Vector2f(HP_BAR_WIDTH, HP_BAR_HEIGHT));
@@ -67,6 +70,10 @@ void World::onUpdate()
 	{
 		hpbar.setSize(sf::Vector2f((player->getHp() / 100.f) * HP_BAR_WIDTH, hpbar.getSize().y));
 	}
+	++score;
+	std::stringstream ss;
+	ss << "Score: " << score;
+	getGame().setTitle(ss.str());
 }
 
 void World::onDraw(sf::RenderTarget& target) const
@@ -358,6 +365,7 @@ void World::actuallyReset()
     player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
 	this->addEntity(player);
 	this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
+	this->addEntity(new Raft(this, sf::Vector2f(92 * 16, 123 * 16), 0));
 
 	for (const je::Level::EntityPrototype& obj : prototypes)
 	{

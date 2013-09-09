@@ -145,6 +145,10 @@ void Boar::update()
 
 void Boar::chop ()
 {
+	for (int r = 0; r < 3; ++r)
+		world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(5), je::pointDirection(target->getPos(), pos))));
+	for (int r = 0; r < 2; ++r)
+		world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
     health -= 1;
 }
 
