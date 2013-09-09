@@ -8,6 +8,7 @@
 #include "Game.hpp"
 #include "Trig.hpp"
 #include "Level.hpp"
+#include "Raft.hpp"
 
 #include <iostream>
 
@@ -60,6 +61,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	controller.setKeybinds("down", {je::Controller::Bind(sf::Keyboard::Down), je::Controller::Bind(sf::Keyboard::S)});
 	controller.setKeybinds("right", {je::Controller::Bind(sf::Keyboard::Right), je::Controller::Bind(sf::Keyboard::D)});
 	controller.setKeybinds("attack", {je::Controller::Bind(sf::Mouse::Button::Left)});
+	controller.setKeybinds("use_raft", {je::Controller::Bind(sf::Keyboard::E)});
 	depth = -10;
 }
 
@@ -170,6 +172,16 @@ void Player::update()
 					state = State::Attacking;
 					break;
 				}
+				else if (controller.isActionPressed("use_raft"))
+				{
+					Raft *raft = (Raft*) world->testCollision(this, "Raft");
+					if (raft)
+					{
+						state = State::Rafting;
+						raft->destroy();
+						break;
+					}
+				}
 			}
 			break;
 		case State::Attacking:
@@ -234,6 +246,16 @@ void Player::update()
 			raft.setPosition(pos);
 			raft.setRotation(-raftDirection);
 			pos += je::lengthdir(raftVelocity, raftDirection);
+
+			if (world->getTerrain(pos.x, pos.y) == World::Terrain::Sand ||
+				controller.isActionPressed("use_raft"))
+			{
+				world->addEntity(new Raft(world, prevPos - je::lengthdir(raftVelocity * 4, raftDirection), raftDirection));
+				raftVelocity = 0;
+				state = State::Walking;
+				break;
+			}
+
 			break;
 		case State::Drowning:
 			drowning.advanceFrame();
@@ -252,6 +274,7 @@ void Player::update()
 	level->setCameraPosition(pos);
 	if (hp <= 0)
 		world->reset();
+	prevPos = pos;
 }
 
 void Player::damage(int amount)

@@ -8,6 +8,10 @@
 #include "Tree.hpp"
 #include "SolidTerrain.hpp"
 #include "Bush.hpp"
+#include "Raft.hpp"
+
+const int HP_BAR_WIDTH = 192;
+const int HP_BAR_HEIGHT = 24;
 
 namespace orca
 {
@@ -19,11 +23,11 @@ World::World(je::Game * const game)
 	,player(nullptr)
 {
 	hpbar.setPosition(32, 16);
-	hpbar.setSize(sf::Vector2f(100, 32));
+	hpbar.setSize(sf::Vector2f(HP_BAR_WIDTH, HP_BAR_HEIGHT));
 	hpbar.setFillColor(sf::Color::Red);
 
 	hpbarBack.setPosition(32, 16);
-	hpbarBack.setSize(sf::Vector2f(100, 32));
+	hpbarBack.setSize(sf::Vector2f(HP_BAR_WIDTH, HP_BAR_HEIGHT));
 	hpbarBack.setFillColor(sf::Color::Black);
 	hpbarBack.setOutlineColor(sf::Color::White);
 	hpbarBack.setOutlineThickness(2);
@@ -61,7 +65,7 @@ void World::onUpdate()
 		this->actuallyReset();
 	if (player)
 	{
-		hpbar.setSize(sf::Vector2f(player->getHp(), hpbar.getSize().y));
+		hpbar.setSize(sf::Vector2f((player->getHp() / 100.f) * HP_BAR_WIDTH, hpbar.getSize().y));
 	}
 }
 
@@ -395,7 +399,6 @@ void World::actuallyReset()
 	{
 		tileLayers["water"]->setDepth(20);
 	}
-
 
 	resetOnNextTurn = false;
 }

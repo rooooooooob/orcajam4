@@ -48,6 +48,7 @@ private:
 	int hp;
 	float raftDirection;
 	float raftVelocity;
+	sf::Vector2f prevPos;
 };
 
 }
