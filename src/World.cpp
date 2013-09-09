@@ -350,6 +350,11 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 void World::actuallyReset()
 {
 	this->clearEntities();
+
+    player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
+	this->addEntity(player);
+	this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
+
 	for (const je::Level::EntityPrototype& obj : prototypes)
 	{
 		/*std::cout << "----------------ENTITY-------------";
@@ -374,6 +379,11 @@ void World::actuallyReset()
 			je::Entity *entity = new Bush(this, pos);
 			this->addEntity(entity);
 		}
+		else if (obj.id == 132)
+        {
+            je::Entity *entity = new Boar (this, pos, player);
+            this->addEntity (entity);
+        }
 	}
 
 	if (tileLayers.count("terrain"))
@@ -386,9 +396,6 @@ void World::actuallyReset()
 		tileLayers["water"]->setDepth(20);
 	}
 
-	player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
-	this->addEntity(player);
-	this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
 
 	resetOnNextTurn = false;
 }

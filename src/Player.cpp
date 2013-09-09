@@ -180,7 +180,7 @@ void Player::update()
             {
 				attacking.advanceFrame();
 				std::vector<je::Entity*> hitList;
-				std::cout << "x coor: " << je::lengthdirX (8, mouseAim) << "  y coor: " << je::lengthdirY (8, mouseAim) << "\n";
+				//std::cout << "x coor: " << je::lengthdirX (8, mouseAim) << "  y coor: " << je::lengthdirY (8, mouseAim) << "\n";
 				world->findCollisions(hitList, this, "Tree", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
 				for (je::Entity* tree : hitList)
                 {
