@@ -48,6 +48,11 @@ void Boar::update()
 
         case Follow:
 		{
+		    int dist = je::pointDistance (pos, playerPos);
+		    if ((dist > 320))
+            {
+                state = Roam;
+            }
 			float direction = je::pointDirection(pos, playerPos);
 
 			run.apply ([direction] (sf::Sprite& sprite)
@@ -58,7 +63,7 @@ void Boar::update()
 			pos += je::lengthdir(1, je::pointDirection(pos, playerPos));
 			run.advanceFrame();
 
-			if (je::pointDistance (pos, playerPos) <= 160)
+			if (je::pointDistance (pos, playerPos) <= 112)
 			{
 				state = Stare;
 				stareTime = 0;
