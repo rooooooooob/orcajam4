@@ -349,7 +349,7 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
                     }
                 }
 				else
-					terrain[x][y] == Terrain::DeepWater;
+					terrain[x][y] = Terrain::DeepWater;
             }
         }
 	}

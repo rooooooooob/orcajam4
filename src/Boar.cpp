@@ -11,7 +11,7 @@ namespace orca
 {
 
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
-    Entity (world, "Boar", pos, sf::Vector2i(16, 16)),
+    Entity (world, "Boar", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8)),
     run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
     target(player), health(50), stareTime (0), state (Roam), chargeDir(0),
     timer(0), hasHitPlayerDuringCharge(false), world(world)
@@ -39,6 +39,24 @@ void Boar::update()
         sprite.setPosition(px, py);
     });
 
+	World::Terrain terrain = world->getTerrain(pos.x, pos.y);
+	float terrainSpeed = 1;
+	switch (terrain)
+	{
+		case World::Terrain::DeepWater:
+			terrainSpeed = 0.3;
+			break;
+		case World::Terrain::NormalWater:
+			terrainSpeed = 0.5;
+			break;
+		case World::Terrain::ShallowWater:
+			terrainSpeed = 0.7;
+			break;
+		default:
+			terrainSpeed = 1;
+			break;
+	}
+
     sf::Vector2f playerPos = target->getPos();
     switch (state)
     {
@@ -64,10 +82,11 @@ void Boar::update()
 			   sprite.setRotation (-direction);
 			});
 
-			pos += je::lengthdir(1, je::pointDirection(pos, playerPos));
+			pos += je::lengthdir(1 * terrainSpeed, je::pointDirection(pos, playerPos));
 			run.advanceFrame();
 
-			if (je::pointDistance (pos, playerPos) <= 112)
+			if (terrain != World::Terrain::DeepWater && terrain != World::Terrain::NormalWater &&
+				je::pointDistance (pos, playerPos) <= 112)
 			{
 				state = Stare;
 				stareTime = 0;
@@ -77,7 +96,7 @@ void Boar::update()
 
         case Stare:
 		{
-			if (stareTime < 100)
+			if (stareTime < 120)
 			{
 				float direction = je::pointDirection(pos, playerPos);
 
@@ -102,9 +121,9 @@ void Boar::update()
 		{
 			int dist = je::pointDistance(pos, playerPos);
 
-			sf::Vector2f velocity = je::lengthdir(2.5, chargeDir);
+			sf::Vector2f velocity = je::lengthdir(2.5 * terrainSpeed, chargeDir);
 			if (!hasHitPlayerDuringCharge)
-				velocity += je::lengthdir(3, je::pointDirection(pos, playerPos));
+				velocity += je::lengthdir(3 * terrainSpeed, je::pointDirection(pos, playerPos));
 
 			float vDir = je::pointDirection(velocity);
 
@@ -124,13 +143,17 @@ void Boar::update()
 			//if (boaR.contains(playerPos))
 			if (dist < 16)
 			{
-				hasHitPlayerDuringCharge = true;
-				target->damage(3);
-				chargeDir = finalChargeDir;
-				for (int r = 0; r < 4; ++r)
-					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
-				for (int r = 0; r < 2; ++r)
-					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+				int dmg = je::length(velocity) / 2;
+				if (dmg > 0)
+				{
+					hasHitPlayerDuringCharge = true;
+					target->damage(dmg);
+					chargeDir = finalChargeDir;
+					for (int r = 0; r < dmg + 1; ++r)
+						world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
+					for (int r = 0; r < dmg - 1; ++r)
+						world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+				}
 			}
 			if (timer == 0)
 			{

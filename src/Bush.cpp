@@ -8,7 +8,7 @@ namespace orca
 {
 
 Bush::Bush(World * world, const sf::Vector2f& pos)
-	:Entity(world, "Bush", pos, sf::Vector2i(16, 16), sf::Vector2i(0, 0))
+	:Entity(world, "Bush", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8))
 	,hp(10)
 {
 	this->pos.y -= 32;

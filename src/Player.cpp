@@ -92,7 +92,7 @@ void Player::draw(sf::RenderTarget& target) const
 
 void Player::update()
 {
-	float mouseAim = -je::pointDirection(pos, level->getCursorPos());
+	float mouseAim = je::pointDirection(pos, level->getCursorPos());
 	bool isMoving = false;
 	sf::Vector2f dir(0, 0);
 	if (controller.isActionHeld("left"))
@@ -147,12 +147,12 @@ void Player::update()
 				{
 					legs.apply([mouseAim, px, py](sf::Sprite& sprite){
 						sprite.setPosition(px, py);
-						sprite.setRotation(mouseAim);
+						sprite.setRotation(-mouseAim);
 					});
 				}
 				walking.apply([mouseAim, px, py](sf::Sprite& sprite){
 					sprite.setPosition(px, py);
-					sprite.setRotation(mouseAim);
+					sprite.setRotation(-mouseAim);
 				});
 				if (world->getTerrain(pos.x, pos.y) == World::Terrain::NormalWater)
 				{
@@ -167,7 +167,7 @@ void Player::update()
 					attacking.reset();
 					attacking.apply([mouseAim, px, py](sf::Sprite& sprite){
 						sprite.setPosition(px, py);
-						sprite.setRotation(mouseAim);
+						sprite.setRotation(-mouseAim);
 					});
 					state = State::Attacking;
 					break;
@@ -177,6 +177,7 @@ void Player::update()
 					Raft *raft = (Raft*) world->testCollision(this, "Raft");
 					if (raft)
 					{
+						pos = raft->getPos();
 						state = State::Rafting;
 						raft->destroy();
 						break;
@@ -211,7 +212,7 @@ void Player::update()
 			break;
 		case State::Stunned:
 			stunned.setPosition(pos);
-			stunned.setRotation(mouseAim);
+			stunned.setRotation(-mouseAim);
 			break;
 		case State::Rafting:
 			if (controller.isActionHeld("right"))
