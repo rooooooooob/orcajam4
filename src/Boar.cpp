@@ -13,7 +13,7 @@ namespace orca
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     Entity (world, "Boar", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8)),
     run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
-    target(player), health(50), stareTime (0), state (Roam), chargeDir(0),
+    target(player), health(150), stareTime (0), state (Roam), chargeDir(0),
     timer(0), hasHitPlayerDuringCharge(false), world(world)
 {
 	depth = -5;
@@ -91,6 +91,11 @@ void Boar::update()
 				state = Stare;
 				stareTime = 0;
 			}
+			if (je::pointDistance(pos, playerPos) < 16)
+			{
+				world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+				target->damage(1);
+			}
 		}
         break;
 
@@ -111,8 +116,14 @@ void Boar::update()
 			{
 				state = Charge;
 				chargeDir = je::pointDirection(pos, playerPos);
-				timer = 120;
+				timer = 60;
 				hasHitPlayerDuringCharge = false;
+			}
+			
+			if (je::pointDistance(pos, playerPos) < 16)
+			{
+				world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+				target->damage(1);
 			}
 		}
 		break;
@@ -143,7 +154,7 @@ void Boar::update()
 			//if (boaR.contains(playerPos))
 			if (dist < 16)
 			{
-				int dmg = je::length(velocity) / 2;
+				int dmg = (int) (1.5 + je::length(velocity) / 2.f);
 				if (dmg > 0)
 				{
 					hasHitPlayerDuringCharge = true;

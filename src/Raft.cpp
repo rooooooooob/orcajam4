@@ -14,6 +14,7 @@ Raft::Raft(World * world, const sf::Vector2f& pos, float angle)
 	sprite.setOrigin(16, 16);
 	sprite.setPosition(pos);
 	sprite.setRotation(-angle);
+	depth = -5;
 
 	/*if (world->getTerrain(pos.x, pos.y) == World::Terrain::Sand)
 	{
