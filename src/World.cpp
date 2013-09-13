@@ -364,7 +364,7 @@ void World::actuallyReset()
 
     player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
 	this->addEntity(player);
-	this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
+	//this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
 	this->addEntity(new Raft(this, sf::Vector2f(92 * 16, 123 * 16), 0));
 
 	for (const je::Level::EntityPrototype& obj : prototypes)

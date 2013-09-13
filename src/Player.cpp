@@ -50,7 +50,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 		sprite.setOrigin(8, 8);
 	});
 
-	stunned.setTexture(world->getGame().getTexManager().get("player.png"));
+	stunned.setTexture(world->getGame().getTexManager().get("player_stunned.png"));
 	stunned.setOrigin(4, 8);
 
 	raft.setTexture(world->getGame().getTexManager().get("raft.png"));
@@ -213,6 +213,8 @@ void Player::update()
 		case State::Stunned:
 			stunned.setPosition(pos);
 			stunned.setRotation(-mouseAim);
+			if (timer <= 0)
+				state = State::Walking;
 			break;
 		case State::Rafting:
 			if (controller.isActionHeld("right"))
@@ -278,9 +280,18 @@ void Player::update()
 	prevPos = pos;
 }
 
-void Player::damage(int amount)
+bool Player::damage(float amount, bool stun)
 {
-	hp -= amount;
+	if (state != State::Stunned)
+		hp -= amount;
+	else
+		return false;
+	if (stun)
+	{
+		state = State::Stunned;
+		timer = amount * 1.5;
+	}
+	return true;
 }
 
 int Player::getHp() const

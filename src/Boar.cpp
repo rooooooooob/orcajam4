@@ -93,8 +93,9 @@ void Boar::update()
 			}
 			if (je::pointDistance(pos, playerPos) < 16)
 			{
-				world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
-				target->damage(1);
+				if (je::random(8) == 0 && target->damage(3, false))
+					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+				
 			}
 		}
         break;
@@ -122,8 +123,8 @@ void Boar::update()
 			
 			if (je::pointDistance(pos, playerPos) < 16)
 			{
-				world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
-				target->damage(1);
+				if (je::random(8) == 0 && target->damage(3, false))
+					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
 			}
 		}
 		break;
@@ -158,12 +159,14 @@ void Boar::update()
 				if (dmg > 0)
 				{
 					hasHitPlayerDuringCharge = true;
-					target->damage(dmg);
-					chargeDir = finalChargeDir;
-					for (int r = 0; r < dmg + 1; ++r)
-						world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
-					for (int r = 0; r < dmg - 1; ++r)
-						world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+					if (target->damage(dmg * 6, true))
+					{
+						chargeDir = finalChargeDir;
+						for (int r = 0; r < dmg + 1; ++r)
+							world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(4), finalChargeDir - 10 + je::randomf(20))));
+						for (int r = 0; r < dmg - 1; ++r)
+							world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
+					}
 				}
 			}
 			if (timer == 0)

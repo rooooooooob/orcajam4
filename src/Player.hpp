@@ -20,7 +20,7 @@ public:
 
 	void update() override;
 
-	void damage(int amount);
+	bool damage(float amount, bool stun = false);
 
 	int getHp() const;
 
@@ -45,7 +45,7 @@ private:
 	float speed;
 	State state;
 	int timer;
-	int hp;
+	float hp;
 	float raftDirection;
 	float raftVelocity;
 	sf::Vector2f prevPos;
