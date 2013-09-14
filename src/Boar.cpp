@@ -27,7 +27,7 @@ void Boar::draw(sf::RenderTarget& target) const
     run.draw (target);
 }
 
-void Boar::update()
+void Boar::onUpdate()
 {
     if (health <= 0)
     {

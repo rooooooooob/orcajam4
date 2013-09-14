@@ -15,7 +15,7 @@ class SolidTerrain : public je::Entity
 public:
 	SolidTerrain(World * world, const sf::Vector2f& pos, const std::string& name);
 
-	void update() override;
+	void onUpdate() override;
 
 	void draw(sf::RenderTarget& target) const override;
 

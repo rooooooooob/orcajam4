@@ -14,7 +14,7 @@ public:
 	Blood(World * world, const sf::Vector2f& pos, const sf::Vector2f& velocity);
 
 private:
-	void update() override;
+	void onUpdate() override;
 	void draw(sf::RenderTarget& target) const override;
 
 	int lifetime;

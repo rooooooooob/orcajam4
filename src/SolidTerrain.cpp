@@ -17,7 +17,7 @@ SolidTerrain::SolidTerrain(World * world, const sf::Vector2f& pos, const std::st
 	sprite.setPosition(this->pos);
 }
 
-void SolidTerrain::update()
+void SolidTerrain::onUpdate()
 {
 }
 

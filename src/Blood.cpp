@@ -18,7 +18,7 @@ Blood::Blood(World * world, const sf::Vector2f& pos, const sf::Vector2f& velocit
 	sprite.setPosition(pos);
 }
 
-void Blood::update()
+void Blood::onUpdate()
 {
 	if (lifetime > 45)
 	{

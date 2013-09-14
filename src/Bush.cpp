@@ -19,7 +19,7 @@ Bush::Bush(World * world, const sf::Vector2f& pos)
 	depth = -15;
 }
 
-void Bush::update()
+void Bush::onUpdate()
 {
 
 }

@@ -37,7 +37,7 @@ Tree::Tree(World * world, const sf::Vector2f& pos)
 	depth = -20;
 }
 
-void Tree::update()
+void Tree::onUpdate()
 {
 
 }

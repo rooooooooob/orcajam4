@@ -14,7 +14,7 @@ class Bush : public je::Entity
 public:
 	Bush(World * world, const sf::Vector2f& pos);
 
-	void update() override;
+	void onUpdate() override;
 
 	void draw(sf::RenderTarget& target) const override;
 

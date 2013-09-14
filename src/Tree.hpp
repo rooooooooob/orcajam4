@@ -15,7 +15,7 @@ class Tree : public je::Entity
 public:
 	Tree(World * world, const sf::Vector2f& pos);
 
-	void update() override;
+	void onUpdate() override;
 
 	void draw(sf::RenderTarget& target) const override;
 

@@ -90,7 +90,7 @@ void Player::draw(sf::RenderTarget& target) const
 	}
 }
 
-void Player::update()
+void Player::onUpdate()
 {
 	float mouseAim = je::pointDirection(pos, level->getCursorPos());
 	bool isMoving = false;

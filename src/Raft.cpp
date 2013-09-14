@@ -31,7 +31,7 @@ Raft::Raft(World * world, const sf::Vector2f& pos, float angle)
 	}*/
 }
 
-void Raft::update()
+void Raft::onUpdate()
 {
 }
 

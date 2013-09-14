@@ -14,7 +14,7 @@ public:
 	Raft(World * world, const sf::Vector2f& pos, float angle);
 
 private:
-	void update() override;
+	void onUpdate() override;
 	void draw(sf::RenderTarget& target) const override;
 
 	sf::Sprite sprite;

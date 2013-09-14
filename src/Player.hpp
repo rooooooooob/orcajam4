@@ -18,7 +18,7 @@ public:
 
 	void draw(sf::RenderTarget& target) const override;
 
-	void update() override;
+	void onUpdate() override;
 
 	bool damage(float amount, bool stun = false);
 
