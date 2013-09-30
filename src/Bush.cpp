@@ -24,9 +24,9 @@ void Bush::onUpdate()
 
 }
 
-void Bush::draw(sf::RenderTarget& target) const
+void Bush::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-	target.draw(sprite);
+	target.draw(sprite, states);
 }
 
 }

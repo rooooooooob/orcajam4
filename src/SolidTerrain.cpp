@@ -21,9 +21,9 @@ void SolidTerrain::onUpdate()
 {
 }
 
-void SolidTerrain::draw(sf::RenderTarget& target) const
+void SolidTerrain::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-	target.draw(sprite);
+	target.draw(sprite, states);
 }
 
 }

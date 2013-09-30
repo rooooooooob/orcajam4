@@ -42,9 +42,9 @@ void Tree::onUpdate()
 
 }
 
-void Tree::draw(sf::RenderTarget& target) const
+void Tree::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-    cutting.draw(target);
+    cutting.draw(target, states);
 }
 
 void Tree::chop()
