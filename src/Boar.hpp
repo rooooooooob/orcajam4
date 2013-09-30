@@ -15,7 +15,7 @@ class Boar: public je::Entity
 
 public:
     Boar (World * world, const sf::Vector2f& pos, Player *player);
-    void draw(sf::RenderTarget& target) const override;
+    void draw(sf::RenderTarget& target, const sf::RenderStates &states = sf::RenderStates::Default) const override;
 	void onUpdate() override;
 	void chop();
 

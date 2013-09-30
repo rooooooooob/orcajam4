@@ -65,27 +65,27 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	depth = -10;
 }
 
-void Player::draw(sf::RenderTarget& target) const
+void Player::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
 	switch (state)
 	{
 		case State::Walking:
 			legs.draw(target);
-			walking.draw(target);
+			walking.draw(target, states);
 			break;
 		case State::Attacking:
 			legs.draw(target);
-			attacking.draw(target);
+			attacking.draw(target, states);
 			break;
 		case State::Stunned:
 			legs.draw(target);
-			target.draw(stunned);
+			target.draw(stunned, states);
 			break;
 		case State::Rafting:
-			target.draw(raft);
+			target.draw(raft, states);
 			break;
 		case State::Drowning:
-			drowning.draw(target);
+			drowning.draw(target, states);
 			break;
 	}
 }

@@ -2,6 +2,7 @@
 #define ORCA_WORLD_HPP
 
 #include "Level.hpp"
+#include "Day.hpp"
 
 namespace orca
 {
@@ -52,6 +53,8 @@ private:
 	sf::RectangleShape hpbarBack;
 
 	int score;
+
+	Day days;
 };
 
 }

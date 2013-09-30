@@ -35,9 +35,9 @@ void Raft::onUpdate()
 {
 }
 
-void Raft::draw(sf::RenderTarget& target) const
+void Raft::draw(sf::RenderTarget& target, const sf::RenderStates &states /*sf::RenderStates::Default*/) const
 {
-	target.draw(sprite);
+	target.draw(sprite, states);
 }
 
 }

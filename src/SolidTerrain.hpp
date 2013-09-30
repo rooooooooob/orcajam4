@@ -17,7 +17,7 @@ public:
 
 	void onUpdate() override;
 
-	void draw(sf::RenderTarget& target) const override;
+	void draw(sf::RenderTarget& target, const sf::RenderStates &states = sf::RenderStates::Default) const override;
 
 private:
 

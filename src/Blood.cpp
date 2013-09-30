@@ -30,7 +30,7 @@ void Blood::onUpdate()
 		this->destroy();
 }
 
-void Blood::draw(sf::RenderTarget& target) const
+void Blood::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
 	target.draw(sprite);
 }

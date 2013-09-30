@@ -22,9 +22,9 @@ Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
     });
 }
 
-void Boar::draw(sf::RenderTarget& target) const
+void Boar::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-    run.draw (target);
+    run.draw (target, states);
 }
 
 void Boar::onUpdate()
@@ -95,7 +95,7 @@ void Boar::onUpdate()
 			{
 				if (je::random(8) == 0 && target->damage(3, false))
 					world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
-				
+
 			}
 		}
         break;
@@ -120,7 +120,7 @@ void Boar::onUpdate()
 				timer = 60;
 				hasHitPlayerDuringCharge = false;
 			}
-			
+
 			if (je::pointDistance(pos, playerPos) < 16)
 			{
 				if (je::random(8) == 0 && target->damage(3, false))

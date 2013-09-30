@@ -16,7 +16,7 @@ class Player : public je::Entity
 public:
 	Player(World * world, const sf::Vector2f& pos);
 
-	void draw(sf::RenderTarget& target) const override;
+	void draw(sf::RenderTarget& target, const sf::RenderStates &states = sf::RenderStates::Default) const override;
 
 	void onUpdate() override;
 

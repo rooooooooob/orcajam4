@@ -70,6 +70,7 @@ void World::onUpdate()
 	{
 		hpbar.setSize(sf::Vector2f((player->getHp() / 100.f) * HP_BAR_WIDTH, hpbar.getSize().y));
 	}
+    days.updateTime();
 	++score;
 	std::stringstream ss;
 	ss << "Score: " << score;
@@ -78,6 +79,13 @@ void World::onUpdate()
 
 void World::onDraw(sf::RenderTarget& target) const
 {
+    sf::IntRect cam = this->getCameraBounds();
+    sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
+    night.setOrigin(cam.width/2, cam.height/2);
+    std::cout << "Opacity: " << days.getTimeOfDay() << "\n";
+    night.setFillColor(sf::Color(0, 0, 200, days.getTimeOfDay()));
+    night.setPosition (cam.left, cam.top);
+    target.draw(night);
 }
 
 void World::drawGUI(sf::RenderTarget& target) const
@@ -408,6 +416,7 @@ void World::actuallyReset()
 		tileLayers["water"]->setDepth(20);
 	}
 
+    days.resetDate();
 	resetOnNextTurn = false;
 }
 
