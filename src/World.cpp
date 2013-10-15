@@ -82,10 +82,18 @@ void World::onDraw(sf::RenderTarget& target) const
     sf::IntRect cam = this->getCameraBounds();
     sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
     night.setOrigin(cam.width/2, cam.height/2);
-    std::cout << "Opacity: " << days.getTimeOfDay() << "\n";
-    night.setFillColor(sf::Color(0, 0, 200, days.getTimeOfDay()));
+    night.setFillColor(sf::Color(0, 0, 200, 40 - days.getTimeOfDay()));
     night.setPosition (cam.left, cam.top);
     target.draw(night);
+    //debug section
+    sf::RectangleShape cursor;
+    sf::IntRect debugtime = getCameraBounds();
+    std::cout << "cursor x: " << debugtime.left - (debugtime.width/2) + getCursorPos().x << "cursor y: " << debugtime.top - (debugtime.height/2) + getCursorPos().y << "\n";
+    cursor.setPosition(debugtime.left - (debugtime.width/2) + getCursorPos().x, debugtime.top - (debugtime.height/2) + getCursorPos().y);
+    cursor.setSize(sf::Vector2f(32, 32));
+    cursor.setFillColor(sf::Color::Blue);
+    target.draw (cursor);
+    //end debug section
 }
 
 void World::drawGUI(sf::RenderTarget& target) const
@@ -94,7 +102,7 @@ void World::drawGUI(sf::RenderTarget& target) const
 	{
 		target.draw(hpbarBack);
 		target.draw(hpbar);
-	}
+    }
 }
 
 void World::loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes)

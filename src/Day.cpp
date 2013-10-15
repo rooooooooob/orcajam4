@@ -1,45 +1,42 @@
 #include <iostream>
 
 #include "Day.hpp"
+#include <cmath>
+
+#define DAYLENGTH 240
 
 namespace orca
 {
 
-Day::Day() : dayNumber (0), time (sf::Time::Zero), afternoon(true)
+Day::Day() : dayNumber (0), time (sf::Time::Zero), night(false), opacityOffSet (0)
 {
     clock.restart();
 }
 
 int Day::getTimeOfDay () const
 {
-    if (afternoon)
-    {
-        return time.asSeconds();
-    }
-    else
-    {
-        return 80 - time.asSeconds();
-    }
+     return opacityOffSet;
 }
 
 void Day::updateTime ()
 {
-    if (time.asSeconds() > 80) //2 minutes per day/night cycle
+    time += clock.restart();
+    opacityOffSet = 40*cos(time.asSeconds()*3.14159265358979323846264/(DAYLENGTH/2));
+
+    if (opacityOffSet < 0)
     {
-        if (afternoon)
-        {
-            dayNumber++;
-            afternoon = false;
-        }
-        else
-        {
-            afternoon = true;
-        }
-        time = sf::Time::Zero;
+        night = true;
+    }
+    else
+    {
+        night = false;
     }
 
-    time += clock.restart();
-    std::cout << "Time: " << time.asSeconds() << "\n";
+    if (time.asSeconds() > DAYLENGTH)
+    {
+        dayNumber++;
+        time = sf::Time::Zero;
+    }
 }
 
 void Day::unpause ()
@@ -55,7 +52,8 @@ int Day::getDay ()
 void Day::resetDate ()
 {
     dayNumber = 0;
-    afternoon = true;
+    night = false;
+    opacityOffSet = 0;
     time = sf::Time::Zero;
     clock.restart();
 }

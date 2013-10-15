@@ -22,7 +22,8 @@ class Day
 	    sf::Clock clock;
 		sf::Time time;
 		int dayNumber;
-		bool afternoon;
+		bool night;
+		short int opacityOffSet;
 };
 
 }

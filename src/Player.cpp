@@ -36,7 +36,9 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,hp(100)
 	,raftDirection(0)
 	,raftVelocity(0)
+	,pockets (world, sf::Vector2i (10, 5), sf::Vector2i (-160, 64))
 {
+    world->addEntity (&pockets);
 	legs.apply([](sf::Sprite& sprite){
 		sprite.setOrigin(8, 8);
 	});
@@ -62,6 +64,8 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	controller.setKeybinds("right", {je::Controller::Bind(sf::Keyboard::Right), je::Controller::Bind(sf::Keyboard::D)});
 	controller.setKeybinds("attack", {je::Controller::Bind(sf::Mouse::Button::Left)});
 	controller.setKeybinds("use_raft", {je::Controller::Bind(sf::Keyboard::E)});
+	controller.setKeybinds ("toggle inventory", {je::Controller::Bind(sf::Keyboard::I)});
+
 	depth = -10;
 }
 
@@ -115,6 +119,11 @@ void Player::onUpdate()
 		dir.y += 1;
 		isMoving = true;
 	}
+	if (controller.isActionPressed("toggle inventory"))
+    {
+        pockets.toggle();
+    }
+
 	dir = je::lengthdir(speed, je::pointDirection(sf::Vector2f(0, 0), dir));
 
 	switch (state)

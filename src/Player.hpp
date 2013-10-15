@@ -5,6 +5,7 @@
 #include "Entity.hpp"
 #include "Controller.hpp"
 #include "Animation.hpp"
+#include "Inventory.hpp"
 
 namespace orca
 {
@@ -49,6 +50,7 @@ private:
 	float raftDirection;
 	float raftVelocity;
 	sf::Vector2f prevPos;
+    Inventory pockets;
 };
 
 }
