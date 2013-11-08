@@ -11,33 +11,33 @@ namespace orca
 {
 
 Boar::Boar (World * world, const sf::Vector2f& pos, Player *player) :
-    Entity (world, "Boar", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8)),
-    run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
-    target(player), health(150), stareTime (0), state (Roam), chargeDir(0),
-    timer(0), hasHitPlayerDuringCharge(false), world(world)
+	Entity (world, "Boar", pos, sf::Vector2i(16, 16), sf::Vector2i(-8, -8)),
+	run (world->getGame().getTexManager().get("boar.png"), 16, 16, 10),
+	target(player), health(150), stareTime (0), state (Roam), chargeDir(0),
+	timer(0), hasHitPlayerDuringCharge(false), world(world)
 {
 	depth = -5;
-    run.apply([](sf::Sprite& sprite){
-        sprite.setOrigin(8, 8);
-    });
+	run.apply([](sf::Sprite& sprite){
+		sprite.setOrigin(8, 8);
+	});
 }
 
 void Boar::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-    run.draw (target, states);
+	run.draw (target, states);
 }
 
 void Boar::onUpdate()
 {
-    if (health <= 0)
-    {
-        this->destroy();
-    }
-    int px = pos.x;
-    int py = pos.y;
-    run.apply([px, py](sf::Sprite& sprite){
-        sprite.setPosition(px, py);
-    });
+	if (health <= 0)
+	{
+		this->destroy();
+	}
+	int px = pos.x;
+	int py = pos.y;
+	run.apply([px, py](sf::Sprite& sprite){
+		sprite.setPosition(px, py);
+	});
 
 	World::Terrain terrain = world->getTerrain(pos.x, pos.y);
 	float terrainSpeed = 1;
@@ -57,24 +57,24 @@ void Boar::onUpdate()
 			break;
 	}
 
-    sf::Vector2f playerPos = target->getPos();
-    switch (state)
-    {
-        case Roam:
-        {
-            if (je::pointDistance (pos, target->getPos()) <= 320)
-                state = Follow;
-            break;
-        }
-        break;
-
-        case Follow:
+	sf::Vector2f playerPos = target->getPos();
+	switch (state)
+	{
+		case Roam:
 		{
-		    int dist = je::pointDistance (pos, playerPos);
-		    if ((dist > 320))
-            {
-                state = Roam;
-            }
+			if (je::pointDistance (pos, target->getPos()) <= 320)
+				state = Follow;
+			break;
+		}
+		break;
+
+		case Follow:
+		{
+			int dist = je::pointDistance (pos, playerPos);
+			if ((dist > 320))
+			{
+				state = Roam;
+			}
 			float direction = je::pointDirection(pos, playerPos);
 
 			run.apply ([direction] (sf::Sprite& sprite)
@@ -98,9 +98,9 @@ void Boar::onUpdate()
 
 			}
 		}
-        break;
+		break;
 
-        case Stare:
+		case Stare:
 		{
 			if (stareTime < 120)
 			{
@@ -129,7 +129,7 @@ void Boar::onUpdate()
 		}
 		break;
 
-        case Charge:
+		case Charge:
 		{
 			int dist = je::pointDistance(pos, playerPos);
 
@@ -175,7 +175,7 @@ void Boar::onUpdate()
 			}
 		}
 		break;
-    }
+	}
 	if (timer >= 0)
 		--timer;
 }
@@ -186,7 +186,7 @@ void Boar::chop ()
 		world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(5), je::pointDirection(target->getPos(), pos))));
 	for (int r = 0; r < 2; ++r)
 		world->addEntity(new Blood(world, pos, je::lengthdir(je::randomf(2), je::randomf(360))));
-    health -= 1;
+	health -= 1;
 }
 
 }

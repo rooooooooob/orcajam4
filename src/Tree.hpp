@@ -19,11 +19,11 @@ public:
 
 	void draw(sf::RenderTarget& target, const sf::RenderStates &states = sf::RenderStates::Default) const override;
 
-    void chop ();
+	void chop ();
 
 private:
 
-    je::Animation cutting;
+	je::Animation cutting;
 	int hp;
 };
 

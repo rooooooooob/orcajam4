@@ -20,19 +20,19 @@ Tree::Tree(World * world, const sf::Vector2f& pos)
 	float py = pos.y;
 
 	cutting.apply ([px, py] (sf::Sprite& sprite)
-    {
-       sprite.setPosition (px, py);
-    });
+	{
+	   sprite.setPosition (px, py);
+	});
 
 	cutting.apply ([] (sf::Sprite& sprite)
-    {
-        sprite.setOrigin(16, 16);
-    });
+	{
+		sprite.setOrigin(16, 16);
+	});
 
-    /*cutting.apply ([] (sf::Sprite& sprite)
-    {
-        sprite.setRotation(je::random(360));
-    });*/
+	/*cutting.apply ([] (sf::Sprite& sprite)
+	{
+		sprite.setRotation(je::random(360));
+	});*/
 
 	depth = -20;
 }
@@ -44,16 +44,16 @@ void Tree::onUpdate()
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
 {
-    cutting.draw(target, states);
+	cutting.draw(target, states);
 }
 
 void Tree::chop()
 {
-    hp -= 1;
-    if (hp == 49 || hp == 25 || hp == 0)
-    {
-        cutting.advanceFrame();
-    }
+	hp -= 1;
+	if (hp == 49 || hp == 25 || hp == 0)
+	{
+		cutting.advanceFrame();
+	}
 }
 
 

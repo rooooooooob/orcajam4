@@ -38,7 +38,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,raftVelocity(0)
 	,pockets (world, sf::Vector2i (10, 5), sf::Vector2i (-160, 64))
 {
-    world->addEntity (&pockets);
+	world->addEntity (&pockets);
 	legs.apply([](sf::Sprite& sprite){
 		sprite.setOrigin(8, 8);
 	});
@@ -120,9 +120,9 @@ void Player::onUpdate()
 		isMoving = true;
 	}
 	if (controller.isActionPressed("toggle inventory"))
-    {
-        pockets.toggle();
-    }
+	{
+		pockets.toggle();
+	}
 
 	dir = je::lengthdir(speed, je::pointDirection(sf::Vector2f(0, 0), dir));
 
@@ -200,24 +200,24 @@ void Player::onUpdate()
 				state = State::Walking;
 			}
 			else
-            {
+			{
 				attacking.advanceFrame();
 				std::vector<je::Entity*> hitList;
 				//std::cout << "x coor: " << je::lengthdirX (8, mouseAim) << "  y coor: " << je::lengthdirY (8, mouseAim) << "\n";
 				world->findCollisions(hitList, this, "Tree", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
 				for (je::Entity* tree : hitList)
-                {
-                    std::cout << "chop";
-                    ((Tree*)tree)->chop();
-                }
+				{
+					std::cout << "chop";
+					((Tree*)tree)->chop();
+				}
 
-                world->findCollisions(hitList, this, "Boar", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
+				world->findCollisions(hitList, this, "Boar", je::lengthdirX (8, mouseAim), je::lengthdirY (8, mouseAim));
 				for (je::Entity* tree : hitList)
-                {
-                    std::cout << "chop";
-                    ((Boar*)tree)->chop();
-                }
-            }
+				{
+					std::cout << "chop";
+					((Boar*)tree)->chop();
+				}
+			}
 			break;
 		case State::Stunned:
 			stunned.setPosition(pos);

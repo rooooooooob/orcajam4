@@ -70,7 +70,7 @@ void World::onUpdate()
 	{
 		hpbar.setSize(sf::Vector2f((player->getHp() / 100.f) * HP_BAR_WIDTH, hpbar.getSize().y));
 	}
-    days.updateTime();
+	days.updateTime();
 	++score;
 	std::stringstream ss;
 	ss << "Score: " << score;
@@ -79,21 +79,21 @@ void World::onUpdate()
 
 void World::onDraw(sf::RenderTarget& target) const
 {
-    sf::IntRect cam = this->getCameraBounds();
-    sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
-    night.setOrigin(cam.width/2, cam.height/2);
-    night.setFillColor(sf::Color(0, 0, 200, 40 - days.getTimeOfDay()));
-    night.setPosition (cam.left, cam.top);
-    target.draw(night);
-    //debug section
-    sf::RectangleShape cursor;
-    sf::IntRect debugtime = getCameraBounds();
-    std::cout << "cursor x: " << debugtime.left - (debugtime.width/2) + getCursorPos().x << "cursor y: " << debugtime.top - (debugtime.height/2) + getCursorPos().y << "\n";
-    cursor.setPosition(debugtime.left - (debugtime.width/2) + getCursorPos().x, debugtime.top - (debugtime.height/2) + getCursorPos().y);
-    cursor.setSize(sf::Vector2f(32, 32));
-    cursor.setFillColor(sf::Color::Blue);
-    target.draw (cursor);
-    //end debug section
+	sf::IntRect cam = this->getCameraBounds();
+	sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
+	night.setOrigin(cam.width/2, cam.height/2);
+	night.setFillColor(sf::Color(0, 0, 200, 40 - days.getTimeOfDay()));
+	night.setPosition (cam.left, cam.top);
+	target.draw(night);
+	//debug section
+	sf::RectangleShape cursor;
+	sf::IntRect debugtime = getCameraBounds();
+	std::cout << "cursor x: " << debugtime.left - (debugtime.width/2) + getCursorPos().x << "cursor y: " << debugtime.top - (debugtime.height/2) + getCursorPos().y << "\n";
+	cursor.setPosition(debugtime.left - (debugtime.width/2) + getCursorPos().x, debugtime.top - (debugtime.height/2) + getCursorPos().y);
+	cursor.setSize(sf::Vector2f(32, 32));
+	cursor.setFillColor(sf::Color::Blue);
+	target.draw (cursor);
+	//end debug section
 }
 
 void World::drawGUI(sf::RenderTarget& target) const
@@ -102,7 +102,7 @@ void World::drawGUI(sf::RenderTarget& target) const
 	{
 		target.draw(hpbarBack);
 		target.draw(hpbar);
-    }
+	}
 }
 
 void World::loadEntities(const std::string& layerName, const std::vector<EntityPrototype>& prototypes)
@@ -134,240 +134,240 @@ void World::transformTiles(const std::string& layerName, int tilesAcross, int ti
 	/**		modify tiles here (this is your job Max)		**/
 	if (layerName == "terrain")
 	{
-	    enum TileType { Water = 0, Sand = 10,Grass = 34 };
+		enum TileType { Water = 0, Sand = 10,Grass = 34 };
 
 		for (int x = 0; x < tilesAcross; ++x)
 		{
 			for (int y = 0; y < tilesHigh; ++y)
 			{
-                if (untransformed[x][y] == Sand)
-                {
-                	terrain[x][y] = Terrain::Sand;
-                    if ((untransformed[x - 1][y] == Water) && (untransformed[x + 1][y] == Water) && (untransformed[x][y + 1] == Water))
-                    {
-                        tiles[x][y] = 16;
-                    }
-                    else if ((untransformed[x - 1][y] == Water) && (untransformed[x + 1][y] == Water) && (untransformed[x][y - 1] == Water))
-                    {
-                        tiles[x][y] = 15;
-                    }
-                    else if ((untransformed[x][y - 1] == Water) && (untransformed[x][y + 1] == Water) && (untransformed[x + 1][y] == Water))
-                    {
-                        tiles[x][y] = 8;
-                    }
-                    else if ((untransformed[x][y - 1] == Water) && (untransformed[x][y + 1] == Water) && (untransformed[x - 1][y] == Water))
-                    {
-                        tiles[x][y] = 7;
-                    }
-                    else if ((untransformed[x - 1][y] == Water) && (untransformed[x][y - 1] == Water))
-                    {
-                        tiles[x][y] = 1;
-                    }
-                    else if ((untransformed[x - 1][y] == Water) && (untransformed[x][y + 1] == Water))
-                    {
-                        tiles[x][y] = 17;
-                    }
-                    else if ((untransformed[x + 1][y] == Water) && (untransformed[x][y - 1] == Water))
-                    {
-                        tiles[x][y] = 3;
-                    }
-                    else if ((untransformed[x + 1][y] == Water) && (untransformed[x][y + 1] == Water))
-                    {
-                        tiles[x][y] = 19;
-                    }
-                    else if (untransformed[x + 1][y] == Water)
-                    {
-                        tiles[x][y] = 11;
-                    }
-                    else if (untransformed[x - 1][y] == Water)
-                    {
-                        tiles[x][y] = 9;
-                    }
-                    else if (untransformed[x][y + 1] == Water)
-                    {
-                        tiles[x][y] = 18;
-                    }
-                    else if (untransformed[x][y - 1] == Water)
-                    {
-                        tiles[x][y] = 2;
-                    }
-                }
-                else if (untransformed[x][y] == Grass)
-                {
-                	terrain[x][y] = Terrain::Grass;
-                    if ((untransformed[x - 1][y] == Sand) && (untransformed[x + 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
-                    {
-                        tiles[x][y] = 32;
-                    }
-                    else if ((untransformed[x - 1][y] == Sand) && (untransformed[x + 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
-                    {
-                        tiles[x][y] = 31;
-                    }
-                    else if ((untransformed[x][y - 1] == Sand) && (untransformed[x][y + 1] == Sand) && (untransformed[x + 1][y] == Sand))
-                    {
-                        tiles[x][y] = 24;
-                    }
-                    else if ((untransformed[x][y - 1] == Sand) && (untransformed[x][y + 1] == Sand) && (untransformed[x - 1][y] == Sand))
-                    {
-                        tiles[x][y] = 23;
-                    }
-                    else if ((untransformed[x - 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
-                    {
-                        tiles[x][y] = 25;
-                    }
-                    else if ((untransformed[x - 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
-                    {
-                        tiles[x][y] = 41;
-                    }
-                    else if ((untransformed[x + 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
-                    {
-                        tiles[x][y] = 27;
-                    }
-                    else if ((untransformed[x + 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
-                    {
-                        tiles[x][y] = 43;
-                    }
-                    else if (untransformed[x + 1][y] == Sand)
-                    {
-                        tiles[x][y] = 35;
-                    }
-                    else if (untransformed[x - 1][y] == Sand)
-                    {
-                        tiles[x][y] = 33;
-                    }
-                    else if (untransformed[x][y + 1] == Sand)
-                    {
-                        tiles[x][y] = 42;
-                    }
-                    else if (untransformed[x][y - 1] == Sand)
-                    {
-                        tiles[x][y] = 26;
-                    }
-                    else if (untransformed[x + 1][y + 1] == Sand)
-                    {
-                        tiles[x][y] = 28;
-                    }
-                    else if (untransformed[x + 1][y - 1] == Sand)
-                    {
-                        tiles[x][y] = 44;
-                    }
-                    else if (untransformed[x - 1][y + 1] == Sand)
-                    {
-                        tiles[x][y] = 30;
-                    }
-                    else if (untransformed[x + 1][y + 1] == Sand)
-                    {
-                        tiles[x][y] = 46;
-                    }
-                    else
-                    {
-                        unsigned short int rand = je::random(20);
+				if (untransformed[x][y] == Sand)
+				{
+					terrain[x][y] = Terrain::Sand;
+					if ((untransformed[x - 1][y] == Water) && (untransformed[x + 1][y] == Water) && (untransformed[x][y + 1] == Water))
+					{
+						tiles[x][y] = 16;
+					}
+					else if ((untransformed[x - 1][y] == Water) && (untransformed[x + 1][y] == Water) && (untransformed[x][y - 1] == Water))
+					{
+						tiles[x][y] = 15;
+					}
+					else if ((untransformed[x][y - 1] == Water) && (untransformed[x][y + 1] == Water) && (untransformed[x + 1][y] == Water))
+					{
+						tiles[x][y] = 8;
+					}
+					else if ((untransformed[x][y - 1] == Water) && (untransformed[x][y + 1] == Water) && (untransformed[x - 1][y] == Water))
+					{
+						tiles[x][y] = 7;
+					}
+					else if ((untransformed[x - 1][y] == Water) && (untransformed[x][y - 1] == Water))
+					{
+						tiles[x][y] = 1;
+					}
+					else if ((untransformed[x - 1][y] == Water) && (untransformed[x][y + 1] == Water))
+					{
+						tiles[x][y] = 17;
+					}
+					else if ((untransformed[x + 1][y] == Water) && (untransformed[x][y - 1] == Water))
+					{
+						tiles[x][y] = 3;
+					}
+					else if ((untransformed[x + 1][y] == Water) && (untransformed[x][y + 1] == Water))
+					{
+						tiles[x][y] = 19;
+					}
+					else if (untransformed[x + 1][y] == Water)
+					{
+						tiles[x][y] = 11;
+					}
+					else if (untransformed[x - 1][y] == Water)
+					{
+						tiles[x][y] = 9;
+					}
+					else if (untransformed[x][y + 1] == Water)
+					{
+						tiles[x][y] = 18;
+					}
+					else if (untransformed[x][y - 1] == Water)
+					{
+						tiles[x][y] = 2;
+					}
+				}
+				else if (untransformed[x][y] == Grass)
+				{
+					terrain[x][y] = Terrain::Grass;
+					if ((untransformed[x - 1][y] == Sand) && (untransformed[x + 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
+					{
+						tiles[x][y] = 32;
+					}
+					else if ((untransformed[x - 1][y] == Sand) && (untransformed[x + 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
+					{
+						tiles[x][y] = 31;
+					}
+					else if ((untransformed[x][y - 1] == Sand) && (untransformed[x][y + 1] == Sand) && (untransformed[x + 1][y] == Sand))
+					{
+						tiles[x][y] = 24;
+					}
+					else if ((untransformed[x][y - 1] == Sand) && (untransformed[x][y + 1] == Sand) && (untransformed[x - 1][y] == Sand))
+					{
+						tiles[x][y] = 23;
+					}
+					else if ((untransformed[x - 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
+					{
+						tiles[x][y] = 25;
+					}
+					else if ((untransformed[x - 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
+					{
+						tiles[x][y] = 41;
+					}
+					else if ((untransformed[x + 1][y] == Sand) && (untransformed[x][y - 1] == Sand))
+					{
+						tiles[x][y] = 27;
+					}
+					else if ((untransformed[x + 1][y] == Sand) && (untransformed[x][y + 1] == Sand))
+					{
+						tiles[x][y] = 43;
+					}
+					else if (untransformed[x + 1][y] == Sand)
+					{
+						tiles[x][y] = 35;
+					}
+					else if (untransformed[x - 1][y] == Sand)
+					{
+						tiles[x][y] = 33;
+					}
+					else if (untransformed[x][y + 1] == Sand)
+					{
+						tiles[x][y] = 42;
+					}
+					else if (untransformed[x][y - 1] == Sand)
+					{
+						tiles[x][y] = 26;
+					}
+					else if (untransformed[x + 1][y + 1] == Sand)
+					{
+						tiles[x][y] = 28;
+					}
+					else if (untransformed[x + 1][y - 1] == Sand)
+					{
+						tiles[x][y] = 44;
+					}
+					else if (untransformed[x - 1][y + 1] == Sand)
+					{
+						tiles[x][y] = 30;
+					}
+					else if (untransformed[x + 1][y + 1] == Sand)
+					{
+						tiles[x][y] = 46;
+					}
+					else
+					{
+						unsigned short int rand = je::random(20);
 
-                        if (rand == 0)
-                        {
-                            tiles[x][y] = 5;
-                        }
-                        else if (rand == 1)
-                        {
-                            tiles[x][y] = 12;
-                        }
-                        else if (rand == 2)
-                        {
-                            tiles[x][y] = 14;
-                        }
-                        else if (rand == 3)
-                        {
-                            tiles[x][y] = 21;
-                        }
-                    }
-                }
+						if (rand == 0)
+						{
+							tiles[x][y] = 5;
+						}
+						else if (rand == 1)
+						{
+							tiles[x][y] = 12;
+						}
+						else if (rand == 2)
+						{
+							tiles[x][y] = 14;
+						}
+						else if (rand == 3)
+						{
+							tiles[x][y] = 21;
+						}
+					}
+				}
 			}
 		}
 	}
 	else if (layerName == "water")
 	{
-	    enum WaterType { Shallow = 70, Normal = 78, Deep = 71 };
+		enum WaterType { Shallow = 70, Normal = 78, Deep = 71 };
 
 		for (int x = 1; x < tilesAcross - 1; ++x)
 		{
 			for (int y = 1; y < tilesHigh - 1; ++y)
 			{
-                if (untransformed[x][y] == Shallow)
-                {
-                	terrain[x][y] = Terrain::ShallowWater;
-                    if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
-                    {
-                        tiles[x][y] = 82;
-                    }
-                    else if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
-                    {
-                        tiles[x][y] = 90;
-                    }
-                    else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
-                    {
-                        tiles[x][y] = 84;
-                    }
-                    else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
-                    {
-                        tiles[x][y] = 92;
-                    }
-                    else if (untransformed[x + 1][y] == Normal)
-                    {
-                        tiles[x][y] = 93;
-                    }
-                    else if (untransformed[x - 1][y] == Normal)
-                    {
-                        tiles[x][y] = 85;
-                    }
-                    else if (untransformed[x][y + 1] == Normal)
-                    {
-                        tiles[x][y] = 91;
-                    }
-                    else if (untransformed[x][y - 1] == Normal)
-                    {
-                        tiles[x][y] = 83;
-                    }
-                }
-                else if (untransformed[x][y] == Normal)
-                {
-                	terrain[x][y] = Terrain::NormalWater;
-                    if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
-                    {
-                        tiles[x][y] = 114;
-                    }
-                    else if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
-                    {
-                        tiles[x][y] = 122;
-                    }
-                    else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
-                    {
-                        tiles[x][y] = 116;
-                    }
-                    else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
-                    {
-                        tiles[x][y] = 124;
-                    }
-                    else if (untransformed[x + 1][y] == Deep)
-                    {
-                        tiles[x][y] = 125;
-                    }
-                    else if (untransformed[x - 1][y] == Deep)
-                    {
-                        tiles[x][y] = 117;
-                    }
-                    else if (untransformed[x][y + 1] == Deep)
-                    {
-                        tiles[x][y] = 123;
-                    }
-                    else if (untransformed[x][y - 1] == Deep)
-                    {
-                        tiles[x][y] = 115;
-                    }
-                }
+				if (untransformed[x][y] == Shallow)
+				{
+					terrain[x][y] = Terrain::ShallowWater;
+					if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
+					{
+						tiles[x][y] = 82;
+					}
+					else if ((untransformed[x - 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
+					{
+						tiles[x][y] = 90;
+					}
+					else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y - 1] == Normal))
+					{
+						tiles[x][y] = 84;
+					}
+					else if ((untransformed[x + 1][y] == Normal) && (untransformed[x][y + 1] == Normal))
+					{
+						tiles[x][y] = 92;
+					}
+					else if (untransformed[x + 1][y] == Normal)
+					{
+						tiles[x][y] = 93;
+					}
+					else if (untransformed[x - 1][y] == Normal)
+					{
+						tiles[x][y] = 85;
+					}
+					else if (untransformed[x][y + 1] == Normal)
+					{
+						tiles[x][y] = 91;
+					}
+					else if (untransformed[x][y - 1] == Normal)
+					{
+						tiles[x][y] = 83;
+					}
+				}
+				else if (untransformed[x][y] == Normal)
+				{
+					terrain[x][y] = Terrain::NormalWater;
+					if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
+					{
+						tiles[x][y] = 114;
+					}
+					else if ((untransformed[x - 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
+					{
+						tiles[x][y] = 122;
+					}
+					else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y - 1] == Deep))
+					{
+						tiles[x][y] = 116;
+					}
+					else if ((untransformed[x + 1][y] == Deep) && (untransformed[x][y + 1] == Deep))
+					{
+						tiles[x][y] = 124;
+					}
+					else if (untransformed[x + 1][y] == Deep)
+					{
+						tiles[x][y] = 125;
+					}
+					else if (untransformed[x - 1][y] == Deep)
+					{
+						tiles[x][y] = 117;
+					}
+					else if (untransformed[x][y + 1] == Deep)
+					{
+						tiles[x][y] = 123;
+					}
+					else if (untransformed[x][y - 1] == Deep)
+					{
+						tiles[x][y] = 115;
+					}
+				}
 				else
 					terrain[x][y] = Terrain::DeepWater;
-            }
-        }
+			}
+		}
 	}
 	for (int i = 0; i < tilesAcross; ++i)
 		delete[] untransformed[i];
@@ -378,7 +378,7 @@ void World::actuallyReset()
 {
 	this->clearEntities();
 
-    player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
+	player = new Player(this, sf::Vector2f(90 * 16 - 8, 200 * 16 - 8));
 	this->addEntity(player);
 	//this->addEntity(new Boar(this, sf::Vector2f(100 * 16 - 8, 200 * 16 - 8), player));
 	this->addEntity(new Raft(this, sf::Vector2f(92 * 16, 123 * 16), 0));
@@ -408,10 +408,10 @@ void World::actuallyReset()
 			this->addEntity(entity);
 		}
 		else if (obj.id == 132)
-        {
-            je::Entity *entity = new Boar (this, pos, player);
-            this->addEntity (entity);
-        }
+		{
+			je::Entity *entity = new Boar (this, pos, player);
+			this->addEntity (entity);
+		}
 	}
 
 	if (tileLayers.count("terrain"))
@@ -424,7 +424,7 @@ void World::actuallyReset()
 		tileLayers["water"]->setDepth(20);
 	}
 
-    days.resetDate();
+	days.resetDate();
 	resetOnNextTurn = false;
 }
 

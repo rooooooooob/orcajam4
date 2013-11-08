@@ -50,7 +50,7 @@ private:
 	float raftDirection;
 	float raftVelocity;
 	sf::Vector2f prevPos;
-    Inventory pockets;
+	Inventory pockets;
 };
 
 }

@@ -19,7 +19,7 @@ class Day
 		void setTimer (int n);
 
 	private:
-	    sf::Clock clock;
+		sf::Clock clock;
 		sf::Time time;
 		int dayNumber;
 		bool night;
