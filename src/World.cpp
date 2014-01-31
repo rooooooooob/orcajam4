@@ -3,14 +3,16 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include "Random.hpp"
-#include "Player.hpp"
+
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Utility/Random.hpp"
+
 #include "Boar.hpp"
-#include "Tree.hpp"
-#include "SolidTerrain.hpp"
 #include "Bush.hpp"
+#include "Player.hpp"
 #include "Raft.hpp"
-#include "Game.hpp"
+#include "SolidTerrain.hpp"
+#include "Tree.hpp"
 
 const int HP_BAR_WIDTH = 192;
 const int HP_BAR_HEIGHT = 24;
@@ -19,7 +21,7 @@ namespace orca
 {
 
 World::World(je::Game * const game)
-	:Level(game, "orcajam4/levels/world.tmx")
+	:je::Level(game)
 	,terrain(nullptr)
 	,resetOnNextTurn(false)
 	,player(nullptr)
@@ -35,7 +37,6 @@ World::World(je::Game * const game)
 	hpbarBack.setOutlineColor(sf::Color::White);
 	hpbarBack.setOutlineThickness(2);
 
-	this->setCameraBounds(sf::Rect<int>(0, 0, 640, 480));
 	this->loadMap("orcajam4/levels/world.tmx");
 
 	this->reset();
@@ -79,21 +80,12 @@ void World::onUpdate()
 
 void World::onDraw(sf::RenderTarget& target) const
 {
-	sf::IntRect cam = this->getCameraBounds();
-	sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
-	night.setOrigin(cam.width/2, cam.height/2);
-	night.setFillColor(sf::Color(0, 0, 200, 40 - days.getTimeOfDay()));
-	night.setPosition (cam.left, cam.top);
-	target.draw(night);
-	//debug section
-	sf::RectangleShape cursor;
-	sf::IntRect debugtime = getCameraBounds();
-	std::cout << "cursor x: " << debugtime.left - (debugtime.width/2) + getCursorPos().x << "cursor y: " << debugtime.top - (debugtime.height/2) + getCursorPos().y << "\n";
-	cursor.setPosition(debugtime.left - (debugtime.width/2) + getCursorPos().x, debugtime.top - (debugtime.height/2) + getCursorPos().y);
-	cursor.setSize(sf::Vector2f(32, 32));
-	cursor.setFillColor(sf::Color::Blue);
-	target.draw (cursor);
-	//end debug section
+	//sf::IntRect cam = this->getCameraBounds();
+	//sf::RectangleShape night (sf::Vector2f (cam.width, cam.height));
+	//night.setOrigin(cam.width/2, cam.height/2);
+	//night.setFillColor(sf::Color(0, 0, 200, 40 - days.getTimeOfDay()));
+	//night.setPosition (cam.left, cam.top);
+	//target.draw(night);
 }
 
 void World::drawGUI(sf::RenderTarget& target) const

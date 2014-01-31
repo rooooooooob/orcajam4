@@ -1,6 +1,6 @@
-#include "Game.hpp"
+#include "jam-engine/Core/Game.hpp"
+
 #include "World.hpp"
-#include "TexManager.hpp"
 
 int main()
 {

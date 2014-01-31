@@ -2,8 +2,10 @@
 #define JE_SOLIDTERRAIN_HPP
 
 #include <string>
+
 #include <SFML/Graphics.hpp>
-#include "Entity.hpp"
+
+#include "jam-engine/Core/Entity.hpp"
 
 namespace orca
 {

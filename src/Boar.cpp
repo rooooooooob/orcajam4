@@ -1,11 +1,14 @@
 #include "Boar.hpp"
+
+#include <iostream>
+
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Utility/Random.hpp"
+#include "jam-engine/Utility/Trig.hpp"
+
+#include "Blood.hpp"
 #include "Player.hpp"
 #include "World.hpp"
-#include "Game.hpp"
-#include "Trig.hpp"
-#include "Blood.hpp"
-#include "Random.hpp"
-#include <iostream>
 
 namespace orca
 {
@@ -137,7 +140,7 @@ void Boar::onUpdate()
 			if (!hasHitPlayerDuringCharge)
 				velocity += je::lengthdir(3 * terrainSpeed, je::pointDirection(pos, playerPos));
 
-			float vDir = je::pointDirection(velocity);
+			float vDir = je::direction(velocity);
 
 			if (dist > 8)
 				finalChargeDir = vDir;

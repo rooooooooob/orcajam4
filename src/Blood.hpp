@@ -1,7 +1,7 @@
 #ifndef ORCA_BLOOD_HPP
 #define ORCA_BLOOD_HPP
 
-#include "Entity.hpp"
+#include "jam-engine/Core/Entity.hpp"
 
 namespace orca
 {

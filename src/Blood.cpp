@@ -1,8 +1,9 @@
 #include "Blood.hpp"
 
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Utility/Random.hpp"
+
 #include "World.hpp"
-#include "Random.hpp"
-#include "Game.hpp"
 
 namespace orca
 {

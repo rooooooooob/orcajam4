@@ -1,6 +1,7 @@
 #include "Raft.hpp"
 
-#include "Game.hpp"
+#include "jam-engine/Core/Game.hpp"
+
 #include "World.hpp"
 
 namespace orca

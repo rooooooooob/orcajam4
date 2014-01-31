@@ -2,7 +2,8 @@
 #define JE_BUSH_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Entity.hpp"
+
+#include "jam-engine/Core/Entity.hpp"
 
 namespace orca
 {

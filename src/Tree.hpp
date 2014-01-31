@@ -2,8 +2,9 @@
 #define JE_TREE_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Entity.hpp"
-#include "Animation.hpp"
+
+#include "jam-engine/Core/Entity.hpp"
+#include "jam-engine/Graphics/Animation.hpp"
 
 namespace orca
 {

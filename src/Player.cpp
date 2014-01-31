@@ -1,14 +1,13 @@
 #include "Player.hpp"
-#include "Tree.hpp"
+
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Core/Level.hpp"
+#include "jam-engine/Utility/Trig.hpp"
+
 #include "Boar.hpp"
-
-#include "TexManager.hpp"
-
-#include "World.hpp"
-#include "Game.hpp"
-#include "Trig.hpp"
-#include "Level.hpp"
 #include "Raft.hpp"
+#include "Tree.hpp"
+#include "World.hpp"
 
 #include <iostream>
 
@@ -37,6 +36,7 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	,raftDirection(0)
 	,raftVelocity(0)
 	,pockets (world, sf::Vector2i (10, 5), sf::Vector2i (-160, 64))
+	,cam(world, 1, 0.4, 0)
 {
 	world->addEntity (&pockets);
 	legs.apply([](sf::Sprite& sprite){
@@ -67,22 +67,24 @@ Player::Player(World * world, const sf::Vector2f& pos)
 	controller.setKeybinds ("toggle inventory", {je::Controller::Bind(sf::Keyboard::I)});
 
 	depth = -10;
+
+	cam.snap(pos);
 }
 
-void Player::draw(sf::RenderTarget& target, const sf::RenderStates &states /*= sf::RenderStates::Default*/) const
+void Player::draw(sf::RenderTarget& target, const sf::RenderStates &states) const
 {
 	switch (state)
 	{
 		case State::Walking:
-			legs.draw(target);
+			legs.draw(target, states);
 			walking.draw(target, states);
 			break;
 		case State::Attacking:
-			legs.draw(target);
+			legs.draw(target, states);
 			attacking.draw(target, states);
 			break;
 		case State::Stunned:
-			legs.draw(target);
+			legs.draw(target, states);
 			target.draw(stunned, states);
 			break;
 		case State::Rafting:
@@ -283,7 +285,7 @@ void Player::onUpdate()
 	}
 	if (timer >= 0)
 		--timer;
-	level->setCameraPosition(pos);
+	cam.snap(pos);
 	if (hp <= 0)
 		world->reset();
 	prevPos = pos;

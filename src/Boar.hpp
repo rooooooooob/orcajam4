@@ -1,8 +1,8 @@
 #ifndef BOAR_HPP_INCLUDED
 #define BOAR_HPP_INCLUDED
 
-#include "Entity.hpp"
-#include "Animation.hpp"
+#include "jam-engine/Core/Entity.hpp"
+#include "jam-engine/Graphics/Animation.hpp"
 
 namespace orca
 {

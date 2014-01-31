@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Day.hpp"
 #include <cmath>
+#include "Day.hpp"
 
 #define DAYLENGTH 240
 

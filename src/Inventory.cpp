@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
-#include "Game.hpp"
+
+#include "jam-engine/Core/Game.hpp"
 
 #include <iostream>
 
@@ -57,7 +58,8 @@ void Inventory::draw (sf::RenderTarget& target, const sf::RenderStates &states /
 {
 	if (open)
 	{
-		sf::Vector2f topLeft = level->getCameraPosition();
+		// TODO: adapt to je::Camera stuff
+		sf::Vector2f topLeft;// = level->getCameraPosition();
 		sf::Vector2i translation = this->getOffset();
 		topLeft.x += translation.x;
 		topLeft.y += translation.y;
@@ -90,7 +92,8 @@ void Inventory::onUpdate()
 	{
 		if (controller.isActionPressed ("select slot"))
 		{
-			sf::IntRect bounds = level->getCameraBounds();
+			// TODO: adapt to je::Camera stuff
+			sf::IntRect bounds;// = level->getCameraBounds();
 			sf::Vector2i translation = getOffset();
 			sf::Vector2i pixelDimensions (32*dimensions.x, 32*dimensions.y);
 			sf::FloatRect boundingBox (bounds.left + translation.x, bounds.top + translation.y, pixelDimensions.x, pixelDimensions.y);

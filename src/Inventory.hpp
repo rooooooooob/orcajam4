@@ -2,10 +2,13 @@
 #define ORCA_INVENTORY_HPP
 
 #include <SFML/Graphics/RectangleShape.hpp>
+
+#include "jam-engine/Core/Controller.hpp"
+#include "jam-engine/Core/Entity.hpp"
+
 #include "Item.hpp"
-#include "Entity.hpp"
 #include "World.hpp"
-#include "Controller.hpp"
+
 
 namespace orca
 {

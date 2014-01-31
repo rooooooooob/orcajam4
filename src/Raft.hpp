@@ -1,7 +1,7 @@
 #ifndef ORCA_RAFT_HPP
 #define ORCA_RAFT_HPP
 
-#include "Entity.hpp"
+#include "jam-engine/Core/Entity.hpp"
 
 namespace orca
 {

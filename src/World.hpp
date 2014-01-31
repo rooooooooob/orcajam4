@@ -1,7 +1,8 @@
 #ifndef ORCA_WORLD_HPP
 #define ORCA_WORLD_HPP
 
-#include "Level.hpp"
+#include "jam-engine/Core/Level.hpp"
+
 #include "Day.hpp"
 
 namespace orca

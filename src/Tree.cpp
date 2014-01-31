@@ -1,8 +1,10 @@
 #include "Tree.hpp"
 
-#include "Random.hpp"
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Utility/Random.hpp"
+
 #include "World.hpp"
-#include "Game.hpp"
+
 #include <iostream>
 
 namespace orca

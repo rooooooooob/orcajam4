@@ -1,14 +1,15 @@
 #include "SolidTerrain.hpp"
 
-#include "Random.hpp"
+#include "jam-engine/Core/Game.hpp"
+#include "jam-engine/Utility/Random.hpp"
+
 #include "World.hpp"
-#include "Game.hpp"
 
 namespace orca
 {
 
 SolidTerrain::SolidTerrain(World * world, const sf::Vector2f& pos, const std::string& name)
-	:Entity(world, "SolidTerrain", pos, sf::Vector2i(0, 0))
+	:je::Entity(world, "SolidTerrain", pos, sf::Vector2i(0, 0))
 {
 	this->pos.y -= 32;
 	const sf::Texture& tex = world->getGame().getTexManager().get(name);

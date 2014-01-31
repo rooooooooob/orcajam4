@@ -2,9 +2,12 @@
 #define ORCA_PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Entity.hpp"
-#include "Controller.hpp"
-#include "Animation.hpp"
+
+#include "jam-engine/Core/Camera.hpp"
+#include "jam-engine/Core/Controller.hpp"
+#include "jam-engine/Core/Entity.hpp"
+#include "jam-engine/Graphics/Animation.hpp"
+
 #include "Inventory.hpp"
 
 namespace orca
@@ -51,6 +54,7 @@ private:
 	float raftVelocity;
 	sf::Vector2f prevPos;
 	Inventory pockets;
+	je::Camera cam;
 };
 
 }
